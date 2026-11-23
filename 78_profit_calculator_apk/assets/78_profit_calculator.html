@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090814" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>78 Profit Calculator — Pakistani E-Commerce Net Profit Suite</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html, body {
+      overscroll-behavior-y: contain;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #f5f3ff 0%, #faf8ff 45%, #f3f0ff 100%);
+      color: #13111c;
+      -webkit-font-smoothing: antialiased;
+    }
+    html.dark body {
+      background: radial-gradient(circle at top right, #1e133a 0%, #0b0917 45%, #07060f 100%);
+      color: #f5f3ff;
+    }
+    button, a {
+      touch-action: manipulation;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .input-field {
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3.5px rgba(139, 92, 246, 0.24);
+    }
+    .range-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 7px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 45%, #f43f5e 100%);
+      outline: none;
+    }
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      border: 3px solid #7c3aed;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+      transition: transform 0.12s ease;
+    }
+    .range-slider::-webkit-slider-thumb:active {
+      transform: scale(1.14);
+    }
+    .range-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      border: 3px solid #7c3aed;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hero-glow {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -18%;
+      width: 240px;
+      height: 240px;
+      border-radius: 9999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+    }
+    .card-elevated {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 20px -8px rgba(15, 23, 42, 0.07);
+    }
+    html.dark .card-elevated {
+      background: rgba(18, 15, 36, 0.92);
+      border: 1px solid rgba(139, 92, 246, 0.22);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45), 0 14px 28px -10px rgba(88, 28, 135, 0.28);
+    }
+    .accordion-chevron {
+      transition: transform 0.2s ease;
+    }
+    .accordion-collapsed .accordion-chevron {
+      transform: rotate(-90deg);
+    }
+    .toast-enter {
+      animation: slideUp 0.22s ease-out forwards;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pb-safe {
+      padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    }
+    @media (min-width: 1024px) {
+      .pb-safe {
+        padding-bottom: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top App Header -->
+  <header class="sticky top-0 z-40 bg-[#0b0818]/95 backdrop-blur-md text-white border-b border-purple-900/50 shadow-lg">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-violet-400 via-purple-600 to-fuchsia-600 flex items-center justify-center font-black text-white text-base sm:text-lg tracking-tight shadow-lg ring-1 ring-purple-300/50 shrink-0">
+          78
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-sm sm:text-lg font-extrabold tracking-tight truncate leading-tight">78 Profit Calculator</h1>
+            <span class="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-purple-500/25 text-purple-200 border border-purple-400/40">78 AGENCY</span>
+          </div>
+          <p class="text-[10px] sm:text-xs text-slate-400 truncate" data-i18n="subtitle">Pakistani E-Commerce Net Profit Suite (PKR)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Dark / Light Theme Toggle -->
+        <button id="themeToggleBtn" type="button" class="w-9 h-9 rounded-xl bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-slate-200 border border-slate-700/80 transition flex items-center justify-center" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
+          <i id="themeIcon" data-lucide="sun" class="w-4 h-4 text-amber-300"></i>
+        </button>
+
+        <!-- Language Toggle -->
+        <button id="langToggleBtn" type="button" class="h-9 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-[11px] sm:text-xs font-semibold text-slate-200 border border-slate-700/80 transition flex items-center gap-1.5" title="Switch Language">
+          <i data-lucide="languages" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span id="langLabel">Roman Urdu</span>
+        </button>
+
+        <!-- Copy WhatsApp Report -->
+        <button id="copyWhatsappBtn" type="button" class="h-9 px-2.5 sm:px-3 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-400 hover:to-purple-500 active:scale-95 text-xs sm:text-sm font-bold text-white transition flex items-center gap-1.5 shadow-sm" title="Copy WhatsApp Summary">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline" data-i18n="copyReport">Copy Report</span>
+        </button>
+
+        <!-- Export CSV -->
+        <button id="exportCsvBtn" type="button" class="h-9 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-xs sm:text-sm font-semibold text-slate-200 border border-slate-700/80 transition flex items-center gap-1.5" title="Export P&L as CSV">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-slate-300"></i>
+          <span class="hidden md:inline">CSV</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE LIVE PROFIT STICKY BAR (< lg) -->
+  <div id="mobileLiveBar" class="lg:hidden sticky top-14 z-30 bg-[#120d26]/95 backdrop-blur-md text-white border-b border-purple-900/50 px-3.5 py-2.5 shadow-sm cursor-pointer">
+    <div class="flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <div class="flex items-center gap-1.5">
+          <span id="mobileLiveDot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+          <span id="mobileLivePeriodLabel" class="text-[10px] font-semibold uppercase tracking-wider text-slate-400" data-i18n="mobileNetLabel">Monthly Net Profit</span>
+        </div>
+        <div id="mobileMonthlyProfit" class="text-base font-extrabold tabular-nums tracking-tight text-emerald-400 truncate">Rs. 0</div>
+      </div>
+      <div class="flex items-center gap-3 shrink-0 text-right">
+        <div>
+          <div class="text-[10px] text-slate-400" data-i18n="kpiPerOrder">Net / Delivered</div>
+          <div id="mobilePerOrderProfit" class="text-xs font-bold tabular-nums text-white">Rs. 0</div>
+        </div>
+        <div class="pl-3 border-l border-slate-700/80">
+          <div class="text-[10px] text-slate-400" data-i18n="kpiMargin">Margin</div>
+          <div id="mobileMarginPct" class="text-xs font-bold tabular-nums text-emerald-300">0.0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Workspace -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 pt-4 sm:pt-6 pb-safe space-y-4 sm:space-y-5">
+
+    <!-- Preset & Desktop View Bar -->
+    <div class="card-elevated p-2.5 sm:p-3.5 rounded-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 shrink-0 pl-1" data-i18n="presetsLabel">Presets:</span>
+        <button type="button" data-preset="shopify" class="preset-btn shrink-0 px-3 py-2 sm:py-1.5 rounded-xl text-xs font-semibold transition border border-purple-600 bg-purple-50 text-purple-800 dark:bg-purple-950/70 dark:text-purple-200 dark:border-purple-500">
+          Shopify / COD Store
+        </button>
+        <button type="button" data-preset="tiktok" class="preset-btn shrink-0 px-3 py-2 sm:py-1.5 rounded-xl text-xs font-semibold transition border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700">
+          TikTok / WhatsApp COD
+        </button>
+        <button type="button" data-preset="daraz" class="preset-btn shrink-0 px-3 py-2 sm:py-1.5 rounded-xl text-xs font-semibold transition border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700">
+          Daraz Seller
+        </button>
+        <button type="button" id="resetBtn" class="shrink-0 px-2.5 py-2 sm:py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition flex items-center gap-1">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span data-i18n="reset">Reset</span>
+        </button>
+      </div>
+
+      <!-- Desktop View Tabs -->
+      <div class="hidden lg:flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-xl shrink-0">
+        <button type="button" id="tabCalculator" class="view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition flex items-center gap-1.5">
+          <i data-lucide="calculator" class="w-3.5 h-3.5 text-purple-500"></i>
+          <span data-i18n="tabCalc">Calculator</span>
+        </button>
+        <button type="button" id="tabSaved" class="view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+          <span data-i18n="tabSaved">Saved Products</span>
+          <span id="savedCountBadge" class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold leading-none">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- CALCULATOR VIEW -->
+    <div id="calculatorView" class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+      <!-- LEFT COLUMN: ALL COST INPUTS (7 cols on lg) -->
+      <div id="inputsColumn" class="lg:col-span-7 space-y-4">
+
+        <!-- 1. Product, Pricing & Order Funnel -->
+        <section class="card-elevated rounded-2xl overflow-hidden border-l-4 border-l-purple-500">
+          <div class="px-4 sm:px-5 py-3.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+            <button type="button" data-accordion="sec1Body" class="accordion-toggle flex items-center gap-2.5 min-w-0 text-left flex-1">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate" data-i18n="secProduct">1. Product, Pricing & Funnel</h2>
+                <p id="sec1Sub" class="text-[11px] font-semibold text-purple-700 dark:text-purple-300 tabular-nums">Rs. 2,499 × 500 orders</p>
+              </div>
+              <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-slate-400 shrink-0 ml-auto mr-1"></i>
+            </button>
+            <button type="button" id="saveProductBtn" class="px-3 py-1.5 rounded-xl bg-purple-700 dark:bg-purple-600 hover:bg-purple-600 dark:hover:bg-purple-500 active:scale-95 text-white text-xs font-semibold transition flex items-center gap-1.5 shrink-0 shadow-sm">
+              <i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-purple-200 dark:text-white"></i>
+              <span data-i18n="saveProduct">Save Product</span>
+            </button>
+          </div>
+          <div id="sec1Body" class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+            <div class="sm:col-span-2">
+              <label for="productName" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblProductName">Product Name</label>
+              <input id="productName" type="text" value="Smart Watch Ultra (COD)" class="input-field w-full h-11 px-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-semibold text-slate-900 dark:text-white" placeholder="e.g. Men's Leather Wallet" />
+            </div>
+            <div>
+              <label for="sellingPrice" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblSellingPrice">Selling Price (Rs.)</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="sellingPrice" type="number" inputmode="decimal" min="0" step="any" value="2499" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+            </div>
+            <div>
+              <label for="customerShipping" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCustShip">Delivery Charged to Customer</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="customerShipping" type="number" inputmode="decimal" min="0" step="any" value="0" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintFreeShip">Keep 0 for Free Delivery</p>
+            </div>
+            <div>
+              <label for="discount" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblDiscount">Discount / Voucher per Order</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="discount" type="number" inputmode="decimal" min="0" step="any" value="0" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+            </div>
+            <div>
+              <label for="monthlyOrders" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblOrders">Monthly Orders Received (Ads)</label>
+              <div class="relative">
+                <input id="monthlyOrders" type="number" inputmode="numeric" min="1" step="any" value="500" class="input-field tabular-nums w-full h-11 pl-3.5 pr-16 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400" data-i18n="unitOrders">orders</span>
+              </div>
+            </div>
+            <div class="sm:col-span-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div class="min-w-0">
+                <label for="cancelRate" class="block text-xs font-bold text-slate-700 dark:text-slate-200" data-i18n="lblCancelRate">Fake / Unconfirmed Cancel Rate (%)</label>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400" data-i18n="hintCancelRate">Cancelled before dispatch (Ad CPA & call cost still apply)</p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <div class="relative w-24">
+                  <input id="cancelRate" type="number" inputmode="decimal" min="0" max="80" step="any" value="10" class="input-field tabular-nums w-full h-10 pl-3 pr-7 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold text-slate-900 dark:text-white text-right" />
+                  <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+                </div>
+                <span id="dispatchedCountPill" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-200 tabular-nums">450 Disp.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Product Sourcing, Inbound Cargo & Packaging -->
+        <section class="card-elevated rounded-2xl overflow-hidden border-l-4 border-l-blue-500">
+          <button type="button" data-accordion="sec2Body" class="accordion-toggle w-full px-4 sm:px-5 py-3.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 text-left">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0">
+                <i data-lucide="package" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate" data-i18n="secCogs">2. Sourcing, Bilty & Packaging</h2>
+                <p id="sec2Sub" class="text-[11px] font-semibold text-blue-700 dark:text-blue-400 tabular-nums">Rs. 905 / order</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-slate-400 shrink-0"></i>
+          </button>
+          <div id="sec2Body" class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+            <div>
+              <label for="sourcingCost" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblSourcing">Product Unit Cost / COGS</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="sourcingCost" type="number" inputmode="decimal" min="0" step="any" value="750" class="input-field tabular-nums w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+            </div>
+            <div>
+              <label for="inboundFreight" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblInbound">Inbound Cargo / Bilty / Customs</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="inboundFreight" type="number" inputmode="decimal" min="0" step="any" value="40" class="input-field tabular-nums w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintInbound">China/Wholesale freight per unit</p>
+            </div>
+            <div>
+              <label for="packagingCost" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblPackaging">Packaging, Box & Flyer</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="packagingCost" type="number" inputmode="decimal" min="0" step="any" value="80" class="input-field tabular-nums w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+            </div>
+            <div>
+              <label for="handlingCost" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblHandling">Call Confirm / Staff / Order</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="handlingCost" type="number" inputmode="decimal" min="0" step="any" value="35" class="input-field tabular-nums w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Courier, Return (RTO) & Replacements -->
+        <section class="card-elevated rounded-2xl overflow-hidden border-l-4 border-l-amber-500">
+          <button type="button" data-accordion="sec3Body" class="accordion-toggle w-full px-4 sm:px-5 py-3.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 text-left">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0">
+                <i data-lucide="truck" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate" data-i18n="secDelivery">3. Courier, RTO & Refunds</h2>
+                <p id="sec3Sub" class="text-[11px] font-semibold text-amber-700 dark:text-amber-400 tabular-nums">Rs. 144,594 / mo</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-100/90 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 tabular-nums" id="deliveryRatioBadge">82% Delivered</span>
+              <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-slate-400"></i>
+            </div>
+          </button>
+          <div id="sec3Body" class="p-4 sm:p-5 space-y-4">
+            <!-- RTO Slider Highlight -->
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-200/80 dark:border-amber-800/60">
+              <div class="flex items-center justify-between gap-2 mb-2.5">
+                <label for="rtoRate" class="text-xs font-bold text-amber-950 dark:text-amber-200" data-i18n="lblRtoRate">Return / RTO Rate (% of Dispatched)</label>
+                <div class="flex items-center gap-1.5">
+                  <input id="rtoRate" type="number" inputmode="decimal" min="0" max="90" step="any" value="18" class="input-field tabular-nums w-16 h-9 px-2 rounded-xl border border-amber-300 dark:border-amber-700 bg-white dark:bg-slate-900 text-sm font-extrabold text-amber-900 dark:text-amber-300 text-right" />
+                  <span class="text-xs font-bold text-amber-900 dark:text-amber-300">%</span>
+                </div>
+              </div>
+              <input id="rtoSlider" type="range" min="0" max="60" step="1" value="18" class="range-slider w-full" />
+              <div class="flex flex-wrap items-center justify-between gap-2 mt-2.5">
+                <div class="flex items-center gap-1.5">
+                  <button type="button" data-rto-chip="10" class="rto-chip px-2 py-0.5 rounded-lg bg-white/90 dark:bg-slate-900 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-700 text-[11px] font-bold text-amber-900 dark:text-amber-200 transition">10%</button>
+                  <button type="button" data-rto-chip="18" class="rto-chip px-2 py-0.5 rounded-lg bg-white/90 dark:bg-slate-900 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-700 text-[11px] font-bold text-amber-900 dark:text-amber-200 transition">18%</button>
+                  <button type="button" data-rto-chip="25" class="rto-chip px-2 py-0.5 rounded-lg bg-white/90 dark:bg-slate-900 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-700 text-[11px] font-bold text-amber-900 dark:text-amber-200 transition">25%</button>
+                  <button type="button" data-rto-chip="35" class="rto-chip px-2 py-0.5 rounded-lg bg-white/90 dark:bg-slate-900 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-700 text-[11px] font-bold text-amber-900 dark:text-amber-200 transition">35%</button>
+                </div>
+                <div class="text-[11px] font-semibold text-amber-900/80 dark:text-amber-300/90 tabular-nums">
+                  <span id="deliveredCountHint">369 Del</span> · <span id="returnedCountHint">81 RTO</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="forwardShipping" class="block text-xs font-semibold text-slate-600 dark:text-slate-300" data-i18n="lblForwardShip">Forward Courier Charge</label>
+                  <div class="flex gap-1">
+                    <button type="button" data-courier-chip="200" class="courier-chip px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[10px] font-bold text-slate-600 dark:text-slate-300">200</button>
+                    <button type="button" data-courier-chip="250" class="courier-chip px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[10px] font-bold text-slate-600 dark:text-slate-300">250</button>
+                    <button type="button" data-courier-chip="300" class="courier-chip px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[10px] font-bold text-slate-600 dark:text-slate-300">300</button>
+                  </div>
+                </div>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                  <input id="forwardShipping" type="number" inputmode="decimal" min="0" step="any" value="250" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1">PostEx, Trax, TCS, Leopards</p>
+              </div>
+              <div>
+                <label for="returnShipping" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblReturnShip">Return (RTO) Shipping Fee</label>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                  <input id="returnShipping" type="number" inputmode="decimal" min="0" step="any" value="150" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                </div>
+              </div>
+              <div>
+                <label for="courierGstPct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCourierGst">Courier GST & Fuel Surcharge</label>
+                <div class="relative">
+                  <input id="courierGstPct" type="number" inputmode="decimal" min="0" max="50" step="any" value="16" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                  <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+                </div>
+              </div>
+              <div>
+                <label for="damagedReturnPct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblDamagedPct">Damaged / Lost on Returns</label>
+                <div class="relative">
+                  <input id="damagedReturnPct" type="number" inputmode="decimal" min="0" max="100" step="any" value="5" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                  <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <label for="refundReplacePct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblRefundReplace">Post-Delivery Refunds / Warranty Replacements (%)</label>
+                <div class="relative">
+                  <input id="refundReplacePct" type="number" inputmode="decimal" min="0" max="30" step="any" value="2" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                  <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintRefundReplace">Defective/wrong claims costing 1 extra unit + shipping</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Marketing, Ads & Creatives -->
+        <section class="card-elevated rounded-2xl overflow-hidden border-l-4 border-l-violet-500">
+          <div class="px-4 sm:px-5 py-3.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <button type="button" data-accordion="sec4Body" class="accordion-toggle flex items-center gap-2.5 min-w-0 text-left flex-1">
+              <div class="w-8 h-8 rounded-xl bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 flex items-center justify-center shrink-0">
+                <i data-lucide="megaphone" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate" data-i18n="secAds">4. Marketing, Ads & Creatives</h2>
+                <p id="sec4Sub" class="text-[11px] font-semibold text-violet-700 dark:text-violet-400 tabular-nums">Rs. 258,000 / mo</p>
+              </div>
+              <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-slate-400 shrink-0 ml-auto mr-1"></i>
+            </button>
+            <div class="flex bg-slate-200/80 dark:bg-slate-900 p-0.5 rounded-xl text-[11px] font-semibold shrink-0">
+              <button type="button" id="adModeCpa" class="px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition">Per Order (CPA)</button>
+              <button type="button" id="adModeMonthly" class="px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">Monthly Budget</button>
+            </div>
+          </div>
+          <div id="sec4Body" class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+            <div id="cpaInputWrap">
+              <label for="adCpa" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCpa">Ad Cost Per Order / CPA</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="adCpa" type="number" inputmode="decimal" min="0" step="any" value="450" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1 tabular-nums" id="derivedMonthlyAdHint">Monthly base ads: Rs. 225,000</p>
+            </div>
+            <div id="monthlyAdInputWrap" class="hidden">
+              <label for="monthlyAdSpend" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblMonthlyAd">Total Monthly Ad Spend</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="monthlyAdSpend" type="number" inputmode="decimal" min="0" step="any" value="225000" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1 tabular-nums" id="derivedCpaHint">Effective CPA: Rs. 450 / order</p>
+            </div>
+            <div>
+              <label for="adTaxPct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblAdTax">Bank FX / Ad Card Tax</label>
+              <div class="relative">
+                <input id="adTaxPct" type="number" inputmode="decimal" min="0" max="40" step="any" value="8" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintAdTax">Meta/TikTok card WHT + FX fee</p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="creativeCost" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCreativeCost">Monthly UGC / Influencer / Video Shoot Cost</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="creativeCost" type="number" inputmode="decimal" min="0" step="any" value="15000" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintCreativeCost">Ad videos, influencers, or media buyer retainer</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Taxes, Platform Fees & Monthly Overhead -->
+        <section class="card-elevated rounded-2xl overflow-hidden border-l-4 border-l-rose-500">
+          <button type="button" data-accordion="sec5Body" class="accordion-toggle w-full px-4 sm:px-5 py-3.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 text-left">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 flex items-center justify-center shrink-0">
+                <i data-lucide="landmark" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate" data-i18n="secTaxes">5. Taxes, Platform Fees & Overhead</h2>
+                <p id="sec5Sub" class="text-[11px] font-semibold text-rose-700 dark:text-rose-400 tabular-nums">Rs. 43,443 / mo</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-slate-400 shrink-0"></i>
+          </button>
+          <div id="sec5Body" class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+            <div>
+              <label for="codTaxPct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCodTax">COD Tax / WHT / Gateway Fee</label>
+              <div class="relative">
+                <input id="codTaxPct" type="number" inputmode="decimal" min="0" max="30" step="any" value="2" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+              </div>
+            </div>
+            <div>
+              <label for="platformFeePct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblPlatformFee">Marketplace / Store Commission</label>
+              <div class="relative">
+                <input id="platformFeePct" type="number" inputmode="decimal" min="0" max="40" step="any" value="0" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+              </div>
+            </div>
+            <div>
+              <label for="otherTaxPct" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblOtherTax">Sales / Income Tax Reserve</label>
+              <div class="relative">
+                <input id="otherTaxPct" type="number" inputmode="decimal" min="0" max="30" step="any" value="0" class="input-field tabular-nums w-full h-11 pl-3.5 pr-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">%</span>
+              </div>
+            </div>
+            <div>
+              <label for="codFlatFee" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblCodFlatFee">COD Cash Handling / Extra Fee</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="codFlatFee" type="number" inputmode="decimal" min="0" step="any" value="0" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintCodFlat">Flat fee per delivered COD parcel</p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="fixedOverhead" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" data-i18n="lblFixedOverhead">Monthly Fixed Overhead</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rs.</span>
+                <input id="fixedOverhead" type="number" inputmode="decimal" min="0" step="any" value="25000" class="input-field tabular-nums w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/70 text-sm font-bold text-slate-900 dark:text-white" />
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1" data-i18n="hintOverhead">Shopify plan, staff, rent, software</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: LIVE PROFIT DASHBOARD, INSIGHTS, CHARTS & P&L (5 cols on lg) -->
+      <div id="resultsColumn" class="lg:col-span-5 space-y-4 lg:sticky lg:top-20">
+
+        <!-- PROFIT SUMMARY BLOCK -->
+        <div id="profitSectionWrap" class="space-y-4">
+          <!-- Hero Net Profit Card -->
+          <div id="heroCard" class="hero-glow rounded-2xl p-5 text-white shadow-xl transition-all duration-200 bg-gradient-to-br from-violet-600 via-purple-700 to-indigo-950">
+            <div class="relative z-10">
+              <!-- Period Switcher (Daily / Monthly / Yearly) + Status Pill -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="inline-flex bg-black/25 p-0.5 rounded-xl text-[11px] font-bold backdrop-blur-sm">
+                  <button type="button" data-period="daily" class="period-btn px-2.5 py-1 rounded-lg text-white/75 hover:text-white transition" data-i18n="perDaily">Daily</button>
+                  <button type="button" data-period="monthly" class="period-btn px-2.5 py-1 rounded-lg bg-white text-slate-950 shadow-sm transition" data-i18n="perMonthly">Monthly</button>
+                  <button type="button" data-period="yearly" class="period-btn px-2.5 py-1 rounded-lg text-white/75 hover:text-white transition" data-i18n="perYearly">Yearly</button>
+                </div>
+                <span id="statusPill" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/20 text-white backdrop-blur-sm border border-white/20 shrink-0">
+                  Healthy Profit
+                </span>
+              </div>
+
+              <p id="heroPeriodHeading" class="text-[11px] font-bold uppercase tracking-widest text-white/80" data-i18n="heroTitle">True Monthly Net Profit</p>
+              <div id="monthlyNetProfitVal" class="text-3xl sm:text-4xl font-black tabular-nums tracking-tight mt-0.5">Rs. 0</div>
+
+              <!-- Margin Health Meter & Target Margin Simulator -->
+              <div class="mt-4 pt-3.5 border-t border-white/15">
+                <div class="flex items-center justify-between text-[11px] text-white/85 mb-1.5">
+                  <span data-i18n="marginHealth">Target Margin Simulator</span>
+                  <div class="flex items-center gap-1">
+                    <button type="button" data-target-margin="15" class="target-margin-btn px-1.5 py-0.5 rounded bg-black/20 text-[10px] font-bold text-white/80 hover:bg-black/30">15%</button>
+                    <button type="button" data-target-margin="20" class="target-margin-btn px-1.5 py-0.5 rounded bg-white text-slate-950 text-[10px] font-extrabold">20%</button>
+                    <button type="button" data-target-margin="25" class="target-margin-btn px-1.5 py-0.5 rounded bg-black/20 text-[10px] font-bold text-white/80 hover:bg-black/30">25%</button>
+                    <button type="button" data-target-margin="30" class="target-margin-btn px-1.5 py-0.5 rounded bg-black/20 text-[10px] font-bold text-white/80 hover:bg-black/30">30%</button>
+                  </div>
+                </div>
+                <div class="w-full h-2 rounded-full bg-black/25 overflow-hidden">
+                  <div id="marginProgressBar" class="h-full rounded-full bg-white/95 transition-all duration-300" style="width: 50%"></div>
+                </div>
+                <div class="flex items-center justify-between gap-2 mt-2">
+                  <span id="targetPriceHint" class="text-[11px] font-semibold text-white/95 tabular-nums">20% Margin Price: Rs. 0</span>
+                  <button type="button" id="applyRecPriceBtn" class="px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 active:scale-95 text-[11px] font-bold text-white border border-white/25 transition shrink-0" data-i18n="applyPrice">Apply Price</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2.5 mt-4 pt-3.5 border-t border-white/20">
+                <div>
+                  <p class="text-[11px] text-white/75" data-i18n="kpiPerOrder">Net / Delivered</p>
+                  <p id="perDeliveredProfitVal" class="text-sm sm:text-base font-extrabold tabular-nums mt-0.5">Rs. 0</p>
+                </div>
+                <div>
+                  <p class="text-[11px] text-white/75" data-i18n="kpiMargin">Net Margin</p>
+                  <p id="netMarginVal" class="text-sm sm:text-base font-extrabold tabular-nums mt-0.5">0.0%</p>
+                </div>
+                <div>
+                  <p class="text-[11px] text-white/75" data-i18n="kpiRoi">Total ROI</p>
+                  <p id="roiVal" class="text-sm sm:text-base font-extrabold tabular-nums mt-0.5">0.0%</p>
+                </div>
+              </div>
+              <button type="button" id="mobileEditPricesBtn" class="lg:hidden mt-4 w-full py-2.5 rounded-xl bg-white/15 hover:bg-white/25 active:scale-[0.99] text-xs font-bold text-white border border-white/25 transition flex items-center justify-center gap-1.5">
+                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                <span data-i18n="editPricesBtn">Edit Prices & Costs</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Smart Profit Insight Card -->
+          <div id="smartInsightCard" class="card-elevated rounded-2xl p-3.5 flex items-start gap-3 border-l-4 border-l-purple-500">
+            <div id="insightIconWrap" class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-i18n="insightTitle">Smart Profit Tip</p>
+              <p id="smartInsightText" class="text-xs font-medium text-slate-700 dark:text-slate-200 mt-0.5 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <!-- Secondary KPI Grid: Revenue & Break-Even Benchmarks -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="card-elevated p-3.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" data-i18n="kpiRevenue">Collected Revenue</p>
+              <p id="totalRevenueVal" class="text-base sm:text-lg font-extrabold tabular-nums text-slate-900 dark:text-white mt-1">Rs. 0</p>
+              <p id="ordersSummaryMini" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">369 del / 81 RTO / 50 canc</p>
+            </div>
+            <div class="card-elevated p-3.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" data-i18n="kpiTotalCost">All-In Total Cost</p>
+              <p id="totalCostVal" class="text-base sm:text-lg font-extrabold tabular-nums text-slate-900 dark:text-white mt-1">Rs. 0</p>
+              <p id="costPerDeliveredMini" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">Rs. 0 / delivered</p>
+            </div>
+            <div class="card-elevated p-3.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" data-i18n="kpiRoas">Actual / Break-Even ROAS</p>
+              <div class="flex items-baseline gap-1.5 mt-1 tabular-nums">
+                <span id="actualRoasVal" class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">0.0x</span>
+                <span class="text-xs font-semibold text-slate-300 dark:text-slate-600">/</span>
+                <span id="beRoasVal" class="text-sm font-bold text-purple-600 dark:text-purple-400">0.0x</span>
+              </div>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="hintRoas">Target above break-even</p>
+            </div>
+            <div class="card-elevated p-3.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" data-i18n="kpiBeLimits">Max Safe CPA / RTO</p>
+              <div class="flex items-baseline gap-1.5 mt-1 tabular-nums">
+                <span id="beCpaVal" class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Rs. 0</span>
+                <span class="text-xs font-semibold text-slate-300 dark:text-slate-600">|</span>
+                <span id="beRtoVal" class="text-sm font-bold text-amber-600 dark:text-amber-400">0%</span>
+              </div>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="hintBeLimits">Zero-profit thresholds</p>
+            </div>
+          </div>
+
+          <!-- Complete Itemized P&L Ledger -->
+          <div class="card-elevated rounded-2xl overflow-hidden">
+            <div class="px-4 py-3 bg-slate-50/80 dark:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200" data-i18n="pnlTitle">Itemized Cost & Profit Sheet</h3>
+              <span id="pnlColsLabel" class="text-[11px] font-semibold text-slate-400" data-i18n="pnlCols">Per Delivered | Monthly</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs">
+                <tbody id="pnlTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 tabular-nums">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISUAL ANALYTICS BLOCK -->
+        <div id="chartsSectionWrap" class="card-elevated rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200" data-i18n="chartsTitle">Visual Analytics</h3>
+            <div class="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl text-[11px] font-semibold">
+              <button type="button" id="chartTabBreakdown" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition" data-i18n="chartTabCost">Cost Split</button>
+              <button type="button" id="chartTabRto" class="px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition" data-i18n="chartTabRto">RTO Impact</button>
+            </div>
+          </div>
+          <div id="breakdownChartBox" class="relative h-64">
+            <canvas id="costDonutChart"></canvas>
+          </div>
+          <div id="rtoChartBox" class="relative h-64 hidden">
+            <canvas id="rtoImpactChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SAVED PRODUCTS / COMPARE VIEW -->
+    <div id="savedView" class="hidden space-y-4">
+      <div class="card-elevated rounded-2xl p-4 sm:p-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white" data-i18n="savedHeading">Saved Products Comparison</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="savedSub">Compare multiple products side-by-side to pick your highest-margin winner.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="saveCurrentFromTabBtn" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span data-i18n="saveCurrent">Save Current Calculation</span>
+            </button>
+            <button type="button" id="clearSavedBtn" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-950/60 hover:text-rose-700 dark:hover:text-rose-300 text-slate-600 dark:text-slate-300 text-xs font-semibold transition">
+              <span data-i18n="clearAll">Clear All</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="savedEmptyState" class="py-12 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
+          <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <p class="text-sm font-bold text-slate-700 dark:text-slate-200" data-i18n="noSavedTitle">No saved products yet</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto px-4" data-i18n="noSavedDesc">Click "Save Product" in the calculator to store and compare winning products side-by-side.</p>
+        </div>
+
+        <div id="savedTableWrap" class="hidden overflow-x-auto">
+          <table class="w-full text-xs text-left tabular-nums">
+            <thead class="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] border-y border-slate-200 dark:border-slate-700">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">Product</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Price</th>
+                <th class="py-2.5 px-3 font-semibold text-right">RTO</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Net / Del.</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Margin</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Monthly Profit</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="savedTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MOBILE APP BOTTOM NAVIGATION BAR (< lg) -->
+  <nav id="mobileBottomNav" class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-[#0b0818]/95 backdrop-blur-md border-t border-purple-200/70 dark:border-purple-900/50 shadow-[0_-4px_20px_rgba(15,23,42,0.08)]">
+    <div class="grid grid-cols-4 h-16 max-w-lg mx-auto px-1">
+      <button type="button" data-mobile-tab="inputs" class="mobile-nav-btn flex flex-col items-center justify-center gap-1 text-purple-600 dark:text-purple-400 font-bold transition">
+        <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+        <span class="text-[10px]" data-i18n="mobTabInputs">Inputs</span>
+      </button>
+      <button type="button" data-mobile-tab="profit" class="mobile-nav-btn flex flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 font-medium transition">
+        <i data-lucide="trending-up" class="w-5 h-5"></i>
+        <span class="text-[10px]" data-i18n="mobTabProfit">Profit</span>
+      </button>
+      <button type="button" data-mobile-tab="charts" class="mobile-nav-btn flex flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 font-medium transition">
+        <i data-lucide="pie-chart" class="w-5 h-5"></i>
+        <span class="text-[10px]" data-i18n="mobTabCharts">Charts</span>
+      </button>
+      <button type="button" data-mobile-tab="saved" class="mobile-nav-btn relative flex flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 font-medium transition">
+        <div class="relative">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+          <span id="mobileSavedBadge" class="hidden absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-purple-600 text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </div>
+        <span class="text-[10px]" data-i18n="mobTabSaved">Saved</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Toast Notification -->
+  <div id="toastContainer" class="fixed bottom-20 lg:bottom-5 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ---------- TRANSLATIONS (English + Roman Urdu) ----------
+      const I18N = {
+        en: {
+          subtitle: 'Pakistani E-Commerce Net Profit Suite (PKR)',
+          copyReport: 'Copy Report',
+          mobileNetLabel: 'Monthly Net Profit',
+          presetsLabel: 'Presets:',
+          reset: 'Reset',
+          tabCalc: 'Calculator',
+          tabSaved: 'Saved Products',
+          secProduct: '1. Product, Pricing & Funnel',
+          saveProduct: 'Save Product',
+          lblProductName: 'Product Name',
+          lblSellingPrice: 'Selling Price (Rs.)',
+          lblCustShip: 'Delivery Charged to Customer',
+          hintFreeShip: 'Keep 0 for Free Delivery',
+          lblDiscount: 'Discount / Voucher per Order',
+          lblOrders: 'Monthly Orders Received (Ads)',
+          unitOrders: 'orders',
+          lblCancelRate: 'Fake / Unconfirmed Cancel Rate (%)',
+          hintCancelRate: 'Cancelled before dispatch (Ad CPA & call cost still apply)',
+          secCogs: '2. Sourcing, Bilty & Packaging',
+          lblSourcing: 'Product Unit Cost / COGS',
+          lblInbound: 'Inbound Cargo / Bilty / Customs',
+          hintInbound: 'China/Wholesale freight per unit',
+          lblPackaging: 'Packaging, Box & Flyer',
+          lblHandling: 'Call Confirm / Staff / Order',
+          secDelivery: '3. Courier, RTO & Refunds',
+          lblRtoRate: 'Return / RTO Rate (% of Dispatched)',
+          lblForwardShip: 'Forward Courier Charge',
+          lblReturnShip: 'Return (RTO) Shipping Fee',
+          lblCourierGst: 'Courier GST & Fuel Surcharge',
+          lblDamagedPct: 'Damaged / Lost on Returns',
+          lblRefundReplace: 'Post-Delivery Refunds / Warranty Replacements (%)',
+          hintRefundReplace: 'Defective/wrong claims costing 1 extra unit + shipping',
+          secAds: '4. Marketing, Ads & Creatives',
+          lblCpa: 'Ad Cost Per Order / CPA',
+          lblMonthlyAd: 'Total Monthly Ad Spend',
+          lblAdTax: 'Bank FX / Ad Card Tax',
+          hintAdTax: 'Meta/TikTok card WHT + FX fee',
+          lblCreativeCost: 'Monthly UGC / Influencer / Video Shoot Cost',
+          hintCreativeCost: 'Ad videos, influencers, or media buyer retainer',
+          secTaxes: '5. Taxes, Platform Fees & Overhead',
+          lblCodTax: 'COD Tax / WHT / Gateway Fee',
+          lblPlatformFee: 'Marketplace / Store Commission',
+          lblOtherTax: 'Sales / Income Tax Reserve',
+          lblCodFlatFee: 'COD Cash Handling / Extra Fee',
+          hintCodFlat: 'Flat fee per delivered COD parcel',
+          lblFixedOverhead: 'Monthly Fixed Overhead',
+          hintOverhead: 'Shopify plan, staff, rent, software',
+          perDaily: 'Daily',
+          perMonthly: 'Monthly',
+          perYearly: 'Yearly',
+          heroTitle: 'True Monthly Net Profit',
+          marginHealth: 'Target Margin Simulator',
+          applyPrice: 'Apply Price',
+          insightTitle: 'Smart Profit Tip',
+          kpiPerOrder: 'Net / Delivered',
+          kpiMargin: 'Net Margin',
+          kpiRoi: 'Total ROI',
+          kpiRevenue: 'Collected Revenue',
+          kpiTotalCost: 'All-In Total Cost',
+          kpiRoas: 'Actual / Break-Even ROAS',
+          hintRoas: 'Target above break-even',
+          kpiBeLimits: 'Max Safe CPA / RTO',
+          hintBeLimits: 'Zero-profit thresholds',
+          chartsTitle: 'Visual Analytics',
+          chartTabCost: 'Cost Split',
+          chartTabRto: 'RTO Impact',
+          pnlTitle: 'Itemized Cost & Profit Sheet',
+          pnlCols: 'Per Delivered | Monthly',
+          savedHeading: 'Saved Products Comparison',
+          savedSub: 'Compare multiple products side-by-side to pick your highest-margin winner.',
+          saveCurrent: 'Save Current Calculation',
+          clearAll: 'Clear All',
+          noSavedTitle: 'No saved products yet',
+          noSavedDesc: 'Click "Save Product" in the calculator to store and compare winning products side-by-side.',
+          mobTabInputs: 'Inputs',
+          mobTabProfit: 'Profit',
+          mobTabCharts: 'Charts',
+          mobTabSaved: 'Saved',
+          editPricesBtn: 'Edit Prices & Costs'
+        },
+        ur: {
+          subtitle: 'Pakistani E-Commerce Asli Munafa Calculator (PKR)',
+          copyReport: 'Report Copy',
+          mobileNetLabel: 'Mahana Asli Munafa',
+          presetsLabel: 'Templates:',
+          reset: 'Reset',
+          tabCalc: 'Calculator',
+          tabSaved: 'Saved Products',
+          secProduct: '1. Product, Qeemat aur Orders',
+          saveProduct: 'Save Product',
+          lblProductName: 'Product ka Naam',
+          lblSellingPrice: 'Bechny ki Qeemat (Rs.)',
+          lblCustShip: 'Customer se Delivery Charges',
+          hintFreeShip: 'Free Delivery k liye 0 rakhein',
+          lblDiscount: 'Discount / Promo per Order',
+          lblOrders: 'Mahana Total Orders (Ads se)',
+          unitOrders: 'orders',
+          lblCancelRate: 'Fake / Unconfirmed Cancel Ratio (%)',
+          hintCancelRate: 'Dispatch se pehle cancel (Ad aur call cost phir bhi lagti hai)',
+          secCogs: '2. Khareedari, Bilty aur Packaging',
+          lblSourcing: 'Product ki Asal Qeemat',
+          lblInbound: 'Cargo / Bilty / Customs (Per Unit)',
+          hintInbound: 'China ya wholesale market se mangwane ka kiraya',
+          lblPackaging: 'Box, Flyer & Packaging',
+          lblHandling: 'Order Confirm / Staff',
+          secDelivery: '3. Courier, RTO aur Refunds',
+          lblRtoRate: 'Return / Wapsi Ratio (RTO %)',
+          lblForwardShip: 'Courier Delivery Charges',
+          lblReturnShip: 'Return Parcel Wapsi Fee',
+          lblCourierGst: 'Courier GST aur Fuel Tax',
+          lblDamagedPct: 'Returns mein Damaged Stock',
+          lblRefundReplace: 'Delivery ke baad Refund / Replacement (%)',
+          hintRefundReplace: 'Kharab piece badalne par extra unit + delivery lagti hai',
+          secAds: '4. Marketing, Ads aur Videos',
+          lblCpa: 'Per Order Ad Cost / CPA',
+          lblMonthlyAd: 'Total Mahana Ad Budget',
+          lblAdTax: 'Bank Card Tax / FX Fee',
+          hintAdTax: 'Meta/TikTok card par WHT aur bank tax',
+          lblCreativeCost: 'Mahana Video Shoot / Influencer / UGC',
+          hintCreativeCost: 'Ad videos, influencers ya agency fee',
+          secTaxes: '5. Taxes, Commission aur Fixed Kharchay',
+          lblCodTax: 'COD Tax / WHT / Gateway Fee',
+          lblPlatformFee: 'Daraz / Platform Commission',
+          lblOtherTax: 'Sales / Income Tax Reserve',
+          lblCodFlatFee: 'COD Cash Handling / Extra Fee',
+          hintCodFlat: 'Har delivered parcel par extra flat fee',
+          lblFixedOverhead: 'Mahana Fixed Kharchay',
+          hintOverhead: 'Shopify fee, staff salary, rent, internet',
+          perDaily: 'Rozana',
+          perMonthly: 'Mahana',
+          perYearly: 'Salana',
+          heroTitle: 'Mahana Asli Net Munafa',
+          marginHealth: 'Target Margin Simulator',
+          applyPrice: 'Price Lagayein',
+          insightTitle: 'Smart Munafa Mashwara',
+          kpiPerOrder: 'Net / Delivered',
+          kpiMargin: 'Margin',
+          kpiRoi: 'Total ROI',
+          kpiRevenue: 'Total Wasooli (Revenue)',
+          kpiTotalCost: 'Total Kharcha (All-In)',
+          kpiRoas: 'Actual / Break-Even ROAS',
+          hintRoas: 'Break-even se upar rakhein',
+          kpiBeLimits: 'Aakhri Safe CPA / RTO',
+          hintBeLimits: 'Is se upar nuqsan hoga',
+          chartsTitle: 'Visual Report',
+          chartTabCost: 'Kharchay ka Hisab',
+          chartTabRto: 'RTO ka Asar',
+          pnlTitle: 'Mukammal Kharchay aur Munafa Sheet',
+          pnlCols: 'Per Delivered | Mahana',
+          savedHeading: 'Saved Products ka Muqabla',
+          savedSub: 'Mukhtalif products compare karein aur best margin wala winner chunein.',
+          saveCurrent: 'Save Current Calculation',
+          clearAll: 'Sab Clear',
+          noSavedTitle: 'Abhi koi product save nahi hai',
+          noSavedDesc: 'Calculator mein "Save Product" par click karein taake products compare kar sakein.',
+          mobTabInputs: 'Kharchay',
+          mobTabProfit: 'Munafa',
+          mobTabCharts: 'Charts',
+          mobTabSaved: 'Saved',
+          editPricesBtn: 'Prices / Kharchay Edit Karein'
+        }
+      };
+
+      // ---------- PRESETS ----------
+      const PRESETS = {
+        shopify: {
+          productName: 'Smart Watch Ultra (COD)',
+          sellingPrice: 2499,
+          customerShipping: 0,
+          discount: 0,
+          monthlyOrders: 500,
+          cancelRate: 10,
+          sourcingCost: 750,
+          inboundFreight: 40,
+          packagingCost: 80,
+          handlingCost: 35,
+          rtoRate: 18,
+          forwardShipping: 250,
+          returnShipping: 150,
+          courierGstPct: 16,
+          damagedReturnPct: 5,
+          refundReplacePct: 2,
+          adMode: 'cpa',
+          adCpa: 400,
+          monthlyAdSpend: 200000,
+          adTaxPct: 8,
+          creativeCost: 15000,
+          codTaxPct: 2,
+          platformFeePct: 0,
+          otherTaxPct: 0,
+          codFlatFee: 0,
+          fixedOverhead: 25000
+        },
+        tiktok: {
+          productName: 'Viral LED Sunset Lamp (TikTok COD)',
+          sellingPrice: 1999,
+          customerShipping: 0,
+          discount: 0,
+          monthlyOrders: 600,
+          cancelRate: 12,
+          sourcingCost: 580,
+          inboundFreight: 35,
+          packagingCost: 65,
+          handlingCost: 25,
+          rtoRate: 22,
+          forwardShipping: 240,
+          returnShipping: 150,
+          courierGstPct: 16,
+          damagedReturnPct: 5,
+          refundReplacePct: 2,
+          adMode: 'cpa',
+          adCpa: 320,
+          monthlyAdSpend: 192000,
+          adTaxPct: 8,
+          creativeCost: 20000,
+          codTaxPct: 2,
+          platformFeePct: 0,
+          otherTaxPct: 0,
+          codFlatFee: 0,
+          fixedOverhead: 15000
+        },
+        daraz: {
+          productName: 'Wireless Earbuds Pro (Daraz)',
+          sellingPrice: 1799,
+          customerShipping: 0,
+          discount: 50,
+          monthlyOrders: 400,
+          cancelRate: 2,
+          sourcingCost: 550,
+          inboundFreight: 30,
+          packagingCost: 60,
+          handlingCost: 20,
+          rtoRate: 8,
+          forwardShipping: 145,
+          returnShipping: 100,
+          courierGstPct: 16,
+          damagedReturnPct: 3,
+          refundReplacePct: 1.5,
+          adMode: 'cpa',
+          adCpa: 120,
+          monthlyAdSpend: 48000,
+          adTaxPct: 0,
+          creativeCost: 5000,
+          codTaxPct: 2,
+          platformFeePct: 15,
+          otherTaxPct: 0,
+          codFlatFee: 0,
+          fixedOverhead: 10000
+        }
+      };
+
+      // ---------- APP STATE ----------
+      let state = {
+        lang: 'en',
+        darkMode: true,
+        activePreset: 'shopify',
+        adMode: 'cpa',
+        period: 'monthly',
+        targetMarginPct: 20,
+        activeChartTab: 'breakdown',
+        activeView: 'calculator',
+        mobileTab: 'inputs',
+        editingSavedId: null,
+        savedProducts: []
+      };
+
+      let donutChart = null;
+      let rtoChart = null;
+      let latestResult = null;
+
+      // ---------- STORAGE HELPERS ----------
+      const STORAGE_KEY = '78_profit_calc_saved_v1';
+      const THEME_KEY = '78_profit_calc_theme_v1';
+
+      function loadPreferences() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) state.savedProducts = parsed;
+          }
+          const savedTheme = localStorage.getItem(THEME_KEY);
+          if (savedTheme === 'light') {
+            applyTheme(false, false);
+          } else {
+            applyTheme(true, false);
+          }
+        } catch (e) {
+          state.savedProducts = [];
+        }
+      }
+
+      function persistSavedProducts() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state.savedProducts));
+        } catch (e) {}
+      }
+
+      function applyTheme(isDark, savePref) {
+        state.darkMode = isDark;
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        const iconEl = document.getElementById('themeIcon');
+        if (iconEl) {
+          iconEl.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+          if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        }
+        if (savePref) {
+          try { localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light'); } catch (e) {}
+        }
+        if (donutChart) { donutChart.destroy(); donutChart = null; }
+        if (rtoChart) { rtoChart.destroy(); rtoChart = null; }
+        if (latestResult) renderCharts(latestResult.inp, latestResult.res);
+      }
+
+      // ---------- FORMATTING ----------
+      function fmtRs(val) {
+        const num = Number.isFinite(val) ? Math.round(val) : 0;
+        const sign = num < 0 ? '-' : '';
+        return sign + 'Rs. ' + Math.abs(num).toLocaleString('en-PK');
+      }
+
+      function fmtPct(val) {
+        if (!Number.isFinite(val)) return '0.0%';
+        return val.toFixed(1) + '%';
+      }
+
+      function numVal(id) {
+        const el = document.getElementById(id);
+        if (!el) return 0;
+        const v = parseFloat(el.value);
+        return Number.isFinite(v) && v >= 0 ? v : 0;
+      }
+
+      function getPeriodMultiplier() {
+        if (state.period === 'daily') return 1 / 30;
+        if (state.period === 'yearly') return 12;
+        return 1;
+      }
+
+      function getPeriodLabelText() {
+        if (state.lang === 'ur') {
+          if (state.period === 'daily') return 'Rozana';
+          if (state.period === 'yearly') return 'Salana';
+          return 'Mahana';
+        }
+        if (state.period === 'daily') return 'Daily';
+        if (state.period === 'yearly') return 'Yearly';
+        return 'Monthly';
+      }
+
+      // ---------- READ INPUTS ----------
+      function getInputs() {
+        const monthlyOrders = Math.max(1, Math.round(numVal('monthlyOrders') || 1));
+        const cancelRate = Math.min(80, Math.max(0, numVal('cancelRate')));
+        const rtoRate = Math.min(95, Math.max(0, numVal('rtoRate')));
+        return {
+          productName: (document.getElementById('productName').value || 'Untitled Product').trim(),
+          sellingPrice: numVal('sellingPrice'),
+          customerShipping: numVal('customerShipping'),
+          discount: numVal('discount'),
+          monthlyOrders: monthlyOrders,
+          cancelRate: cancelRate,
+          sourcingCost: numVal('sourcingCost'),
+          inboundFreight: numVal('inboundFreight'),
+          packagingCost: numVal('packagingCost'),
+          handlingCost: numVal('handlingCost'),
+          rtoRate: rtoRate,
+          forwardShipping: numVal('forwardShipping'),
+          returnShipping: numVal('returnShipping'),
+          courierGstPct: numVal('courierGstPct'),
+          damagedReturnPct: Math.min(100, numVal('damagedReturnPct')),
+          refundReplacePct: Math.min(50, numVal('refundReplacePct')),
+          adMode: state.adMode,
+          adCpa: numVal('adCpa'),
+          monthlyAdSpend: numVal('monthlyAdSpend'),
+          adTaxPct: numVal('adTaxPct'),
+          creativeCost: numVal('creativeCost'),
+          codTaxPct: numVal('codTaxPct'),
+          platformFeePct: numVal('platformFeePct'),
+          otherTaxPct: numVal('otherTaxPct'),
+          codFlatFee: numVal('codFlatFee'),
+          fixedOverhead: numVal('fixedOverhead')
+        };
+      }
+
+      // ---------- CORE FINANCIAL ENGINE (COMPLETE PAKISTANI E-COM FUNNEL) ----------
+      function calculateMetrics(inp, overrideRtoRate, overrideCancelRate) {
+        const cancel = overrideCancelRate !== undefined ? overrideCancelRate : inp.cancelRate;
+        const rto = overrideRtoRate !== undefined ? overrideRtoRate : inp.rtoRate;
+        const orders = inp.monthlyOrders; // Total received from ads
+        const cancelledOrders = orders * (cancel / 100);
+        const dispatchedOrders = Math.max(0, orders - cancelledOrders);
+        const deliveredOrders = dispatchedOrders * (1 - rto / 100);
+        const returnedOrders = dispatchedOrders - deliveredOrders;
+
+        const collectedPerDelivered = Math.max(0, inp.sellingPrice + inp.customerShipping - inp.discount);
+        const totalRevenue = deliveredOrders * collectedPerDelivered;
+
+        // 1. Landed COGS (Unit Cost + Inbound Bilty/Cargo) on Delivered + Damaged Returns
+        const landedUnitCost = inp.sourcingCost + inp.inboundFreight;
+        const cogsDelivered = deliveredOrders * landedUnitCost;
+        const cogsDamaged = returnedOrders * (inp.damagedReturnPct / 100) * landedUnitCost;
+        const totalCogs = cogsDelivered + cogsDamaged;
+
+        // 2. Packaging (on Dispatched) & Call Confirmation/Handling (on ALL Received Orders)
+        const totalPackaging = dispatchedOrders * inp.packagingCost;
+        const totalHandling = orders * inp.handlingCost;
+
+        // 3. Courier, RTO & Post-Delivery Refunds/Replacements
+        const gstMult = 1 + inp.courierGstPct / 100;
+        const fwdShipWithGst = inp.forwardShipping * gstMult;
+        const totalForwardShipping = dispatchedOrders * fwdShipWithGst;
+        const totalReturnShipping = returnedOrders * inp.returnShipping * gstMult;
+        const refundReplaceUnits = deliveredOrders * (inp.refundReplacePct / 100);
+        const totalRefundReplaceCost = refundReplaceUnits * (landedUnitCost + fwdShipWithGst + inp.packagingCost);
+        const totalLogistics = totalForwardShipping + totalReturnShipping + totalRefundReplaceCost;
+
+        // 4. Marketing, Ad Tax & Creatives/UGC (Ads apply on ALL received orders incl. fake/cancelled!)
+        const baseAdSpend = inp.adMode === 'cpa' ? (orders * inp.adCpa) : inp.monthlyAdSpend;
+        const adTax = baseAdSpend * (inp.adTaxPct / 100);
+        const totalMarketing = baseAdSpend + adTax + inp.creativeCost;
+        const effectiveBaseCpa = orders > 0 ? baseAdSpend / orders : 0;
+
+        // 5. Taxes, Platform Fees & COD Flat Handling
+        const revTaxRate = (inp.codTaxPct + inp.platformFeePct + inp.otherTaxPct) / 100;
+        const codTax = totalRevenue * (inp.codTaxPct / 100);
+        const platformFee = totalRevenue * (inp.platformFeePct / 100);
+        const otherTax = totalRevenue * (inp.otherTaxPct / 100);
+        const totalCodFlat = deliveredOrders * inp.codFlatFee;
+        const totalTaxesAndFees = codTax + platformFee + otherTax + totalCodFlat;
+
+        // 6. Fixed Overhead
+        const fixedOverhead = inp.fixedOverhead;
+
+        // Totals
+        const nonRevCosts = totalCogs + totalPackaging + totalHandling + totalLogistics + totalMarketing + totalCodFlat + fixedOverhead;
+        const totalVariableCosts = totalCogs + totalPackaging + totalHandling + totalLogistics + totalMarketing + totalTaxesAndFees;
+        const contributionProfit = totalRevenue - totalVariableCosts;
+        const totalAllCosts = totalVariableCosts + fixedOverhead;
+        const netProfit = totalRevenue - totalAllCosts;
+
+        const safeDel = deliveredOrders > 0 ? deliveredOrders : 0;
+        const netProfitPerDelivered = safeDel > 0 ? netProfit / safeDel : 0;
+        const costPerDelivered = safeDel > 0 ? totalAllCosts / safeDel : 0;
+        const netMarginPct = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
+        const roiPct = totalAllCosts > 0 ? (netProfit / totalAllCosts) * 100 : 0;
+        const actualRoas = totalMarketing > 0 ? totalRevenue / totalMarketing : 0;
+
+        // Break-Even Metrics (max ad spend excl. creatives so CPA reflects media buying limit)
+        const mediaSpendOnly = baseAdSpend + adTax;
+        const profitBeforeMedia = totalRevenue - (totalAllCosts - mediaSpendOnly);
+        const maxMediaSpend = Math.max(0, profitBeforeMedia);
+        const beBaseCpa = orders > 0 ? (maxMediaSpend / (1 + inp.adTaxPct / 100)) / orders : 0;
+        const profitBeforeAllMktg = totalRevenue - (totalAllCosts - totalMarketing);
+        const beRoas = profitBeforeAllMktg > 0 ? totalRevenue / profitBeforeAllMktg : null;
+
+        // Recommended Minimum Selling Price for Target Margin
+        const targetMargin = state.targetMarginPct / 100;
+        const denom = 1 - revTaxRate - targetMargin;
+        let recMinPrice = null;
+        if (safeDel > 0 && denom > 0.05) {
+          const neededCollectedPerDel = (nonRevCosts / safeDel) / denom;
+          recMinPrice = Math.max(0, neededCollectedPerDel - inp.customerShipping + inp.discount);
+        }
+
+        return {
+          orders, cancelledOrders, dispatchedOrders, deliveredOrders, returnedOrders, rto, cancel,
+          collectedPerDelivered, totalRevenue, landedUnitCost,
+          totalCogs, cogsDelivered, cogsDamaged,
+          totalPackaging, totalHandling,
+          totalForwardShipping, totalReturnShipping, totalRefundReplaceCost, totalLogistics,
+          baseAdSpend, adTax, creativeCost: inp.creativeCost, totalMarketing, effectiveBaseCpa,
+          codTax, platformFee, otherTax, totalCodFlat, totalTaxesAndFees, fixedOverhead,
+          totalVariableCosts, contributionProfit, totalAllCosts, netProfit,
+          netProfitPerDelivered, costPerDelivered, netMarginPct, roiPct,
+          actualRoas, beBaseCpa, beRoas, recMinPrice
+        };
+      }
+
+      function calcBreakEvenRto(inp) {
+        const p0 = calculateMetrics(inp, 0).netProfit;
+        const p100 = calculateMetrics(inp, 100).netProfit;
+        if (p0 <= 0) return 0;
+        if (p100 >= 0) return 100;
+        return Math.max(0, Math.min(100, (p0 / (p0 - p100)) * 100));
+      }
+
+      // ---------- RESPONSIVE LAYOUT SYNC ----------
+      function syncResponsiveVisibility() {
+        const isDesktop = window.innerWidth >= 1024;
+        const calcView = document.getElementById('calculatorView');
+        const savedView = document.getElementById('savedView');
+        const inputsCol = document.getElementById('inputsColumn');
+        const resultsCol = document.getElementById('resultsColumn');
+        const profitWrap = document.getElementById('profitSectionWrap');
+        const chartsWrap = document.getElementById('chartsSectionWrap');
+
+        if (isDesktop) {
+          inputsCol.classList.remove('hidden');
+          resultsCol.classList.remove('hidden');
+          profitWrap.classList.remove('hidden');
+          chartsWrap.classList.remove('hidden');
+          if (state.activeView === 'saved') {
+            calcView.classList.add('hidden');
+            savedView.classList.remove('hidden');
+          } else {
+            calcView.classList.remove('hidden');
+            savedView.classList.add('hidden');
+          }
+        } else {
+          if (state.mobileTab === 'saved') {
+            calcView.classList.add('hidden');
+            savedView.classList.remove('hidden');
+          } else {
+            calcView.classList.remove('hidden');
+            savedView.classList.add('hidden');
+            if (state.mobileTab === 'inputs') {
+              inputsCol.classList.remove('hidden');
+              resultsCol.classList.add('hidden');
+            } else if (state.mobileTab === 'profit') {
+              inputsCol.classList.add('hidden');
+              resultsCol.classList.remove('hidden');
+              profitWrap.classList.remove('hidden');
+              chartsWrap.classList.add('hidden');
+            } else if (state.mobileTab === 'charts') {
+              inputsCol.classList.add('hidden');
+              resultsCol.classList.remove('hidden');
+              profitWrap.classList.add('hidden');
+              chartsWrap.classList.remove('hidden');
+              try {
+                if (donutChart) donutChart.resize();
+                if (rtoChart) rtoChart.resize();
+              } catch (e) {}
+            }
+          }
+        }
+
+        document.querySelectorAll('.mobile-nav-btn').forEach(function (btn) {
+          const tab = btn.getAttribute('data-mobile-tab');
+          if (tab === state.mobileTab) {
+            btn.classList.add('text-purple-600', 'dark:text-purple-400', 'font-bold');
+            btn.classList.remove('text-slate-500', 'dark:text-slate-400', 'font-medium');
+          } else {
+            btn.classList.remove('text-purple-600', 'dark:text-purple-400', 'font-bold');
+            btn.classList.add('text-slate-500', 'dark:text-slate-400', 'font-medium');
+          }
+        });
+      }
+
+      // ---------- SMART INSIGHT GENERATOR ----------
+      function renderSmartInsight(inp, res, beRto) {
+        const card = document.getElementById('smartInsightCard');
+        const iconWrap = document.getElementById('insightIconWrap');
+        const textEl = document.getElementById('smartInsightText');
+        const isUr = state.lang === 'ur';
+
+        card.classList.remove('border-l-purple-500', 'border-l-amber-500', 'border-l-rose-500');
+        iconWrap.classList.remove(
+          'bg-emerald-100', 'dark:bg-emerald-900/50', 'text-emerald-700', 'dark:text-emerald-300',
+          'bg-amber-100', 'dark:bg-amber-900/50', 'text-amber-700', 'dark:text-amber-300',
+          'bg-rose-100', 'dark:bg-rose-900/50', 'text-rose-700', 'dark:text-rose-300'
+        );
+
+        if (res.netProfit < 0) {
+          card.classList.add('border-l-rose-500');
+          iconWrap.classList.add('bg-rose-100', 'dark:bg-rose-900/50', 'text-rose-700', 'dark:text-rose-300');
+          const priceSuggestion = res.recMinPrice !== null ? fmtRs(res.recMinPrice) : 'higher';
+          textEl.textContent = isUr
+            ? 'Abhi har delivered order par ' + fmtRs(Math.abs(res.netProfitPerDelivered)) + ' ka nuqsan ho raha hai. Selling price kam az kam ' + priceSuggestion + ' karein ya CPA ko ' + fmtRs(res.beBaseCpa) + ' se niche layein.'
+            : 'Currently losing ' + fmtRs(Math.abs(res.netProfitPerDelivered)) + ' per delivered order. Raise price to ' + priceSuggestion + ' for ' + state.targetMarginPct + '% margin, or cut CPA below ' + fmtRs(res.beBaseCpa) + '.';
+        } else if (inp.cancelRate >= 12) {
+          const lowerCancel = Math.max(0, inp.cancelRate - 5);
+          const cancelGain = calculateMetrics(inp, inp.rtoRate, lowerCancel).netProfit - res.netProfit;
+          card.classList.add('border-l-amber-500');
+          iconWrap.classList.add('bg-amber-100', 'dark:bg-amber-900/50', 'text-amber-700', 'dark:text-amber-300');
+          textEl.textContent = isUr
+            ? 'Fake/Cancel rate (' + inp.cancelRate + '%) aapka ad budget zaya kar raha hai — OTP/WhatsApp verification se isay 5% kam karne par +' + fmtRs(cancelGain) + '/mo extra munafa bachega!'
+            : 'Fake/unconfirmed cancels (' + inp.cancelRate + '%) are burning ad spend — cutting cancels by 5% via WhatsApp/OTP confirmation adds +' + fmtRs(cancelGain) + '/mo to net profit.';
+        } else if (inp.rtoRate >= 10) {
+          const lowerRto = Math.max(0, inp.rtoRate - 5);
+          const gain = calculateMetrics(inp, lowerRto).netProfit - res.netProfit;
+          card.classList.add('border-l-purple-500');
+          iconWrap.classList.add('bg-emerald-100', 'dark:bg-emerald-900/50', 'text-emerald-700', 'dark:text-emerald-300');
+          textEl.textContent = isUr
+            ? 'Agar aap call confirmation behtar kar ke RTO ko ' + inp.rtoRate + '% se ' + lowerRto + '% par le aayein, to aapka mahana munafa +' + fmtRs(gain) + ' barh jayega!'
+            : 'Reducing RTO by just 5% (from ' + inp.rtoRate + '% to ' + lowerRto + '%) via call confirmation adds +' + fmtRs(gain) + '/mo directly to your net profit.';
+        } else {
+          card.classList.add('border-l-purple-500');
+          iconWrap.classList.add('bg-emerald-100', 'dark:bg-emerald-900/50', 'text-emerald-700', 'dark:text-emerald-300');
+          textEl.textContent = isUr
+            ? 'Aapka margin sehatmand hai! Scaling ke liye aap CPA ko max ' + fmtRs(res.beBaseCpa) + ' aur RTO ko ' + beRto.toFixed(1) + '% tak bardasht kar sakte hain.'
+            : 'Strong unit economics! You have headroom to scale ads up to ' + fmtRs(res.beBaseCpa) + ' CPA and survive up to ' + beRto.toFixed(1) + '% RTO before breaking even.';
+        }
+      }
+
+      // ---------- RENDER UI ----------
+      function updateAll() {
+        const inp = getInputs();
+        const res = calculateMetrics(inp);
+        const beRto = calcBreakEvenRto(inp);
+        latestResult = { inp, res, beRto };
+
+        const mult = getPeriodMultiplier();
+        const perLbl = getPeriodLabelText();
+
+        // Accordion Subtotals
+        document.getElementById('sec1Sub').textContent = fmtRs(inp.sellingPrice) + ' × ' + inp.monthlyOrders + ' orders';
+        document.getElementById('dispatchedCountPill').textContent = Math.round(res.dispatchedOrders) + ' Disp.';
+        document.getElementById('sec2Sub').textContent = fmtRs(res.landedUnitCost + inp.packagingCost + inp.handlingCost) + ' / order';
+        document.getElementById('sec3Sub').textContent = fmtRs(res.totalLogistics) + ' / mo';
+        document.getElementById('sec4Sub').textContent = fmtRs(res.totalMarketing) + ' / mo';
+        document.getElementById('sec5Sub').textContent = fmtRs(res.totalTaxesAndFees + res.fixedOverhead) + ' / mo';
+
+        // Sync RTO badges & hints
+        const delPct = (100 - inp.rtoRate).toFixed(0);
+        document.getElementById('deliveryRatioBadge').textContent = delPct + '% Delivered';
+        document.getElementById('deliveredCountHint').textContent = Math.round(res.deliveredOrders) + ' Del';
+        document.getElementById('returnedCountHint').textContent = Math.round(res.returnedOrders) + ' RTO';
+
+        // Sync Ad hints
+        document.getElementById('derivedMonthlyAdHint').textContent = 'Monthly base ads: ' + fmtRs(res.baseAdSpend);
+        document.getElementById('derivedCpaHint').textContent = 'Effective CPA: ' + fmtRs(res.effectiveBaseCpa) + ' / order';
+
+        // Hero Period Heading & Mobile Sticky Label
+        const heroHeading = state.lang === 'ur'
+          ? (perLbl + ' Asli Net Munafa')
+          : ('True ' + perLbl + ' Net Profit');
+        document.getElementById('heroPeriodHeading').textContent = heroHeading;
+        document.getElementById('mobileLivePeriodLabel').textContent = heroHeading;
+        document.getElementById('pnlColsLabel').textContent = 'Per Delivered | ' + perLbl;
+
+        // Hero Card & Mobile Sticky Bar Styling
+        const heroCard = document.getElementById('heroCard');
+        const statusPill = document.getElementById('statusPill');
+        const mobileDot = document.getElementById('mobileLiveDot');
+        const mobileProfitEl = document.getElementById('mobileMonthlyProfit');
+        const mobileMarginEl = document.getElementById('mobileMarginPct');
+
+        heroCard.classList.remove(
+          'from-violet-600', 'via-purple-700', 'to-indigo-950',
+          'from-amber-500', 'via-amber-600', 'to-orange-800',
+          'from-rose-600', 'via-rose-700', 'to-red-900'
+        );
+        mobileDot.classList.remove('bg-emerald-400', 'bg-amber-400', 'bg-rose-400');
+        mobileProfitEl.classList.remove('text-emerald-400', 'text-amber-300', 'text-rose-400');
+        mobileMarginEl.classList.remove('text-emerald-300', 'text-amber-300', 'text-rose-300');
+
+        if (res.netProfit < 0) {
+          heroCard.classList.add('from-rose-600', 'via-rose-700', 'to-red-900');
+          statusPill.textContent = state.lang === 'ur' ? 'Nuqsan (Loss)' : 'Loss Making';
+          mobileDot.classList.add('bg-rose-400');
+          mobileProfitEl.classList.add('text-rose-400');
+          mobileMarginEl.classList.add('text-rose-300');
+        } else if (res.netMarginPct < 10) {
+          heroCard.classList.add('from-amber-500', 'via-amber-600', 'to-orange-800');
+          statusPill.textContent = state.lang === 'ur' ? 'Kam Margin' : 'Thin Margin';
+          mobileDot.classList.add('bg-amber-400');
+          mobileProfitEl.classList.add('text-amber-300');
+          mobileMarginEl.classList.add('text-amber-300');
+        } else {
+          heroCard.classList.add('from-violet-600', 'via-purple-700', 'to-indigo-950');
+          statusPill.textContent = state.lang === 'ur' ? 'Behtareen Munafa' : 'Healthy Profit';
+          mobileDot.classList.add('bg-emerald-400');
+          mobileProfitEl.classList.add('text-emerald-400');
+          mobileMarginEl.classList.add('text-emerald-300');
+        }
+
+        // Update Scaled Period Values
+        document.getElementById('monthlyNetProfitVal').textContent = fmtRs(res.netProfit * mult);
+        document.getElementById('perDeliveredProfitVal').textContent = fmtRs(res.netProfitPerDelivered);
+        document.getElementById('netMarginVal').textContent = fmtPct(res.netMarginPct);
+        document.getElementById('roiVal').textContent = fmtPct(res.roiPct);
+
+        mobileProfitEl.textContent = fmtRs(res.netProfit * mult);
+        document.getElementById('mobilePerOrderProfit').textContent = fmtRs(res.netProfitPerDelivered);
+        mobileMarginEl.textContent = fmtPct(res.netMarginPct);
+
+        // Margin Health Meter
+        const clampedMargin = Math.max(0, Math.min(100, (res.netMarginPct / 35) * 100));
+        document.getElementById('marginProgressBar').style.width = clampedMargin.toFixed(0) + '%';
+        const pricePrefix = state.targetMarginPct + '% Margin Price: ';
+        document.getElementById('targetPriceHint').textContent = res.recMinPrice !== null ? (pricePrefix + fmtRs(res.recMinPrice)) : (pricePrefix + 'N/A');
+
+        // Secondary KPIs (Scaled by period)
+        document.getElementById('totalRevenueVal').textContent = fmtRs(res.totalRevenue * mult);
+        const delScaled = Math.round(res.deliveredOrders * mult);
+        const rtoScaled = Math.round(res.returnedOrders * mult);
+        const cancScaled = Math.round(res.cancelledOrders * mult);
+        document.getElementById('ordersSummaryMini').textContent = delScaled + ' del · ' + rtoScaled + ' RTO · ' + cancScaled + ' canc';
+        document.getElementById('totalCostVal').textContent = fmtRs(res.totalAllCosts * mult);
+        document.getElementById('costPerDeliveredMini').textContent = fmtRs(res.costPerDelivered) + ' / delivered';
+
+        document.getElementById('actualRoasVal').textContent = res.totalMarketing > 0 ? res.actualRoas.toFixed(2) + 'x' : '—';
+        document.getElementById('beRoasVal').textContent = res.beRoas !== null ? res.beRoas.toFixed(2) + 'x' : 'N/A';
+
+        document.getElementById('beCpaVal').textContent = fmtRs(res.beBaseCpa);
+        document.getElementById('beRtoVal').textContent = beRto.toFixed(1) + '%';
+
+        renderSmartInsight(inp, res, beRto);
+        renderPnlTable(res, mult);
+        renderCharts(inp, res);
+      }
+
+      function renderPnlTable(res, mult) {
+        const del = res.deliveredOrders > 0 ? res.deliveredOrders : 1;
+        const rows = [
+          { label: state.lang === 'ur' ? 'Total Wasooli (Delivered Revenue)' : 'Collected Revenue (Delivered)', val: res.totalRevenue, type: 'revenue' },
+          { label: state.lang === 'ur' ? 'Landed COGS (+ Bilty & Damaged RTO)' : 'Landed COGS (+ Bilty & Damaged)', val: -res.totalCogs, type: 'cost' },
+          { label: state.lang === 'ur' ? 'Packaging, Flyer aur Call Confirm' : 'Packaging, Flyer & Call Confirm', val: -(res.totalPackaging + res.totalHandling), type: 'cost' },
+          { label: state.lang === 'ur' ? 'Forward Courier Charges (+ GST)' : 'Forward Courier (+ GST)', val: -res.totalForwardShipping, type: 'cost' },
+          { label: state.lang === 'ur' ? 'Return / RTO Shipping (+ GST)' : 'Return / RTO Shipping (+ GST)', val: -res.totalReturnShipping, type: 'cost' },
+          { label: state.lang === 'ur' ? 'Refunds & Warranty Replacements' : 'Refunds & Replacements', val: -res.totalRefundReplaceCost, type: 'cost' },
+          { label: state.lang === 'ur' ? 'Marketing, Ad Tax & UGC Videos' : 'Ads, Bank Card Tax & Creatives', val: -res.totalMarketing, type: 'cost' },
+          { label: state.lang === 'ur' ? 'COD Tax, Commission & Flat Fees' : 'COD Tax, Commission & Fees', val: -res.totalTaxesAndFees, type: 'cost' },
+          { label: state.lang === 'ur' ? 'Contribution Profit (Fixed se pehle)' : 'Contribution Profit (Before Fixed)', val: res.contributionProfit, type: 'subtotal' },
+          { label: state.lang === 'ur' ? 'Fixed Overhead' : 'Fixed Overhead', val: -res.fixedOverhead, type: 'cost' },
+          { label: state.lang === 'ur' ? 'ASLI NET MUNAFA (NET PROFIT)' : 'TRUE NET PROFIT', val: res.netProfit, type: 'total' }
+        ];
+
+        const tbody = document.getElementById('pnlTableBody');
+        tbody.innerHTML = rows.map(function (r) {
+          let rowClass = 'bg-white dark:bg-slate-900';
+          let labelClass = 'text-slate-700 dark:text-slate-300 font-medium';
+          let valClass = 'text-slate-800 dark:text-slate-200 font-semibold';
+
+          if (r.type === 'revenue') {
+            rowClass = 'bg-slate-50/80 dark:bg-slate-800/50';
+            labelClass = 'text-slate-900 dark:text-white font-bold';
+            valClass = 'text-slate-900 dark:text-white font-bold';
+          } else if (r.type === 'subtotal') {
+            rowClass = 'bg-slate-50 dark:bg-slate-800/40';
+            labelClass = 'text-slate-800 dark:text-slate-100 font-bold';
+            valClass = r.val >= 0 ? 'text-slate-900 dark:text-white font-bold' : 'text-rose-600 dark:text-rose-400 font-bold';
+          } else if (r.type === 'total') {
+            rowClass = r.val >= 0 ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-rose-50 dark:bg-rose-950/50';
+            labelClass = r.val >= 0 ? 'text-emerald-900 dark:text-emerald-300 font-extrabold' : 'text-rose-900 dark:text-rose-300 font-extrabold';
+            valClass = r.val >= 0 ? 'text-emerald-700 dark:text-emerald-400 font-extrabold' : 'text-rose-700 dark:text-rose-400 font-extrabold';
+          } else {
+            valClass = 'text-slate-600 dark:text-slate-400 font-medium';
+          }
+
+          const perDel = r.val / del;
+          const periodVal = r.val * mult;
+          return (
+            '<tr class="' + rowClass + '">' +
+              '<td class="py-2.5 px-3.5 sm:px-4 ' + labelClass + '">' + r.label + '</td>' +
+              '<td class="py-2.5 px-2.5 text-right whitespace-nowrap ' + valClass + '">' + fmtRs(perDel) + '</td>' +
+              '<td class="py-2.5 px-3.5 sm:px-4 text-right whitespace-nowrap ' + valClass + '">' + fmtRs(periodVal) + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+      }
+
+      // ---------- CHARTS ----------
+      function renderCharts(inp, res) {
+        if (typeof Chart === 'undefined') return;
+        try {
+
+        const textColor = state.darkMode ? '#cbd5e1' : '#334155';
+        const gridColor = state.darkMode ? '#1e293b' : '#f1f5f9';
+        const borderColor = state.darkMode ? '#0f172a' : '#ffffff';
+
+        const cogsAndPack = Math.max(0, res.totalCogs + res.totalPackaging + res.totalHandling);
+        const deliveryAndRto = Math.max(0, res.totalLogistics);
+        const ads = Math.max(0, res.totalMarketing);
+        const taxes = Math.max(0, res.totalTaxesAndFees);
+        const fixed = Math.max(0, res.fixedOverhead);
+        const profit = Math.max(0, res.netProfit);
+
+        const donutLabels = ['COGS & Pack', 'Courier, RTO & Ref.', 'Ads & UGC', 'COD/Fees', 'Fixed Cost', 'Net Profit'];
+        const donutData = [cogsAndPack, deliveryAndRto, ads, taxes, fixed, profit];
+        const donutColors = ['#3b82f6', '#f59e0b', '#8b5cf6', '#f43f5e', '#64748b', '#10b981'];
+
+        const donutCtx = document.getElementById('costDonutChart').getContext('2d');
+        if (donutChart) {
+          donutChart.data.datasets[0].data = donutData;
+          donutChart.update('none');
+        } else {
+          donutChart = new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+              labels: donutLabels,
+              datasets: [{
+                data: donutData,
+                backgroundColor: donutColors,
+                borderWidth: 2,
+                borderColor: borderColor,
+                hoverOffset: 4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: '62%',
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    boxWidth: 10,
+                    padding: 10,
+                    font: { size: 11, family: 'Inter, sans-serif' },
+                    color: textColor
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (ctx) {
+                      return ' ' + ctx.label + ': ' + fmtRs(ctx.parsed);
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+
+        const rtoLevels = [0, 10, 20, 30, 40];
+        const rtoProfits = rtoLevels.map(function (lvl) {
+          return Math.round(calculateMetrics(inp, lvl).netProfit);
+        });
+        const rtoBarColors = rtoProfits.map(function (p) {
+          return p >= 0 ? '#10b981' : '#f43f5e';
+        });
+
+        const rtoCtx = document.getElementById('rtoImpactChart').getContext('2d');
+        if (rtoChart) {
+          rtoChart.data.datasets[0].data = rtoProfits;
+          rtoChart.data.datasets[0].backgroundColor = rtoBarColors;
+          rtoChart.update('none');
+        } else {
+          rtoChart = new Chart(rtoCtx, {
+            type: 'bar',
+            data: {
+              labels: rtoLevels.map(function (l) { return l + '% RTO'; }),
+              datasets: [{
+                label: 'Monthly Net Profit (Rs.)',
+                data: rtoProfits,
+                backgroundColor: rtoBarColors,
+                borderRadius: 6,
+                maxBarThickness: 36
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: function (ctx) {
+                      return ' Net Profit: ' + fmtRs(ctx.parsed.y);
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  grid: { color: gridColor },
+                  ticks: {
+                    font: { size: 10 },
+                    color: textColor,
+                    callback: function (v) {
+                      if (Math.abs(v) >= 1000) return (v / 1000).toFixed(0) + 'k';
+                      return v;
+                    }
+                  }
+                },
+                x: {
+                  grid: { display: false },
+                  ticks: { font: { size: 11, weight: '600' }, color: textColor }
+                }
+              }
+            }
+          });
+        }
+        } catch (e) {
+          // Guard against hidden-canvas Chart.js errors
+        }
+      }
+
+      // ---------- PRESET & FORM HELPERS ----------
+      function populateForm(p) {
+        document.getElementById('productName').value = p.productName;
+        document.getElementById('sellingPrice').value = p.sellingPrice;
+        document.getElementById('customerShipping').value = p.customerShipping;
+        document.getElementById('discount').value = p.discount;
+        document.getElementById('monthlyOrders').value = p.monthlyOrders;
+        document.getElementById('cancelRate').value = p.cancelRate !== undefined ? p.cancelRate : 0;
+        document.getElementById('sourcingCost').value = p.sourcingCost;
+        document.getElementById('inboundFreight').value = p.inboundFreight !== undefined ? p.inboundFreight : 0;
+        document.getElementById('packagingCost').value = p.packagingCost;
+        document.getElementById('handlingCost').value = p.handlingCost;
+        document.getElementById('rtoRate').value = p.rtoRate;
+        document.getElementById('rtoSlider').value = Math.min(60, p.rtoRate);
+        document.getElementById('forwardShipping').value = p.forwardShipping;
+        document.getElementById('returnShipping').value = p.returnShipping;
+        document.getElementById('courierGstPct').value = p.courierGstPct;
+        document.getElementById('damagedReturnPct').value = p.damagedReturnPct;
+        document.getElementById('refundReplacePct').value = p.refundReplacePct !== undefined ? p.refundReplacePct : 0;
+        document.getElementById('adCpa').value = p.adCpa;
+        document.getElementById('monthlyAdSpend').value = p.monthlyAdSpend;
+        document.getElementById('adTaxPct').value = p.adTaxPct;
+        document.getElementById('creativeCost').value = p.creativeCost !== undefined ? p.creativeCost : 0;
+        document.getElementById('codTaxPct').value = p.codTaxPct;
+        document.getElementById('platformFeePct').value = p.platformFeePct;
+        document.getElementById('otherTaxPct').value = p.otherTaxPct;
+        document.getElementById('codFlatFee').value = p.codFlatFee !== undefined ? p.codFlatFee : 0;
+        document.getElementById('fixedOverhead').value = p.fixedOverhead;
+        setAdMode(p.adMode || 'cpa');
+      }
+
+      function applyPreset(key) {
+        const p = PRESETS[key];
+        if (!p) return;
+        state.activePreset = key;
+        populateForm(p);
+        highlightPresetBtn(key);
+        updateAll();
+      }
+
+      function highlightPresetBtn(key) {
+        document.querySelectorAll('.preset-btn').forEach(function (btn) {
+          const isActive = btn.getAttribute('data-preset') === key;
+          if (isActive) {
+            btn.className = 'preset-btn shrink-0 px-3 py-2 sm:py-1.5 rounded-xl text-xs font-semibold transition border border-purple-600 bg-purple-50 text-purple-800 dark:bg-purple-950/70 dark:text-purple-200 dark:border-purple-500 shadow-sm';
+          } else {
+            btn.className = 'preset-btn shrink-0 px-3 py-2 sm:py-1.5 rounded-xl text-xs font-semibold transition border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700';
+          }
+        });
+      }
+
+      function setAdMode(mode) {
+        state.adMode = mode;
+        const cpaBtn = document.getElementById('adModeCpa');
+        const monBtn = document.getElementById('adModeMonthly');
+        const cpaWrap = document.getElementById('cpaInputWrap');
+        const monWrap = document.getElementById('monthlyAdInputWrap');
+
+        if (mode === 'cpa') {
+          cpaBtn.className = 'px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+          monBtn.className = 'px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          cpaWrap.classList.remove('hidden');
+          monWrap.classList.add('hidden');
+        } else {
+          monBtn.className = 'px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+          cpaBtn.className = 'px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+          monWrap.classList.remove('hidden');
+          cpaWrap.classList.add('hidden');
+        }
+      }
+
+      // ---------- SAVED PRODUCTS ----------
+      function saveCurrentProduct() {
+        if (!latestResult) return;
+        const payload = {
+          inputs: Object.assign({}, latestResult.inp),
+          summary: {
+            netProfit: latestResult.res.netProfit,
+            netProfitPerDelivered: latestResult.res.netProfitPerDelivered,
+            netMarginPct: latestResult.res.netMarginPct,
+            totalRevenue: latestResult.res.totalRevenue
+          }
+        };
+        const existingIdx = state.editingSavedId
+          ? state.savedProducts.findIndex(function (item) { return item.id === state.editingSavedId; })
+          : -1;
+        if (existingIdx !== -1 && state.savedProducts[existingIdx].inputs.productName === payload.inputs.productName) {
+          state.savedProducts[existingIdx] = Object.assign({ id: state.editingSavedId }, payload);
+          showToast(state.lang === 'ur' ? 'Saved product update ho gaya!' : 'Saved product updated!');
+        } else {
+          const newId = 'prod_' + Date.now();
+          state.savedProducts.unshift(Object.assign({ id: newId }, payload));
+          state.editingSavedId = newId;
+          showToast(state.lang === 'ur' ? 'Product save ho gaya!' : 'Product saved for comparison!');
+        }
+        persistSavedProducts();
+        renderSavedTable();
+      }
+
+      function loadSavedProduct(id) {
+        const found = state.savedProducts.find(function (item) { return item.id === id; });
+        if (!found) return;
+        state.editingSavedId = found.id;
+        populateForm(found.inputs);
+        highlightPresetBtn('');
+        state.activeView = 'calculator';
+        state.mobileTab = 'inputs';
+        switchMainView('calculator');
+        updateAll();
+        showToast((state.lang === 'ur' ? 'Edit ke liye load ho gaya: ' : 'Loaded for editing: ') + found.inputs.productName);
+      }
+
+      function deleteSavedProduct(id) {
+        state.savedProducts = state.savedProducts.filter(function (item) { return item.id !== id; });
+        persistSavedProducts();
+        renderSavedTable();
+      }
+
+      function renderSavedTable() {
+        const countStr = String(state.savedProducts.length);
+        document.getElementById('savedCountBadge').textContent = countStr;
+        const mobBadge = document.getElementById('mobileSavedBadge');
+        mobBadge.textContent = countStr;
+        if (state.savedProducts.length > 0) {
+          mobBadge.classList.remove('hidden');
+        } else {
+          mobBadge.classList.add('hidden');
+        }
+
+        const emptyEl = document.getElementById('savedEmptyState');
+        const wrapEl = document.getElementById('savedTableWrap');
+        const tbody = document.getElementById('savedTableBody');
+
+        if (state.savedProducts.length === 0) {
+          emptyEl.classList.remove('hidden');
+          wrapEl.classList.add('hidden');
+          tbody.innerHTML = '';
+          return;
+        }
+
+        emptyEl.classList.add('hidden');
+        wrapEl.classList.remove('hidden');
+
+        tbody.innerHTML = state.savedProducts.map(function (item) {
+          const p = item.inputs;
+          const s = item.summary;
+          const profitColor = s.netProfit >= 0 ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-rose-600 dark:text-rose-400 font-bold';
+          return (
+            '<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">' +
+              '<td class="py-3 px-3 font-semibold text-slate-900 dark:text-white">' + escapeHtml(p.productName) + '<div class="text-[11px] text-slate-400 font-normal">' + p.monthlyOrders + ' orders/mo</div></td>' +
+              '<td class="py-3 px-3 text-right font-medium text-slate-700 dark:text-slate-300">' + fmtRs(p.sellingPrice) + '</td>' +
+              '<td class="py-3 px-3 text-right font-medium text-amber-700 dark:text-amber-400">' + p.rtoRate + '%</td>' +
+              '<td class="py-3 px-3 text-right ' + profitColor + '">' + fmtRs(s.netProfitPerDelivered) + '</td>' +
+              '<td class="py-3 px-3 text-right font-semibold text-slate-700 dark:text-slate-300">' + fmtPct(s.netMarginPct) + '</td>' +
+              '<td class="py-3 px-3 text-right ' + profitColor + '">' + fmtRs(s.netProfit) + '</td>' +
+              '<td class="py-3 px-3 text-right whitespace-nowrap">' +
+                '<button type="button" data-load-id="' + item.id + '" class="load-saved-btn px-2.5 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 text-emerald-800 dark:text-emerald-300 font-semibold mr-1 transition">Load</button>' +
+                '<button type="button" data-del-id="' + item.id + '" class="del-saved-btn px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950/60 text-slate-600 dark:text-slate-300 hover:text-rose-700 font-semibold transition">Delete</button>' +
+              '</td>' +
+            '</tr>'
+          );
+        }).join('');
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // ---------- VIEW & LANGUAGE SWITCHING ----------
+      function switchMainView(view) {
+        state.activeView = view;
+        const tabCalc = document.getElementById('tabCalculator');
+        const tabSaved = document.getElementById('tabSaved');
+
+        if (view === 'calculator') {
+          if (state.mobileTab === 'saved') state.mobileTab = 'inputs';
+          tabCalc.className = 'view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition flex items-center gap-1.5';
+          tabSaved.className = 'view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-1.5';
+        } else {
+          state.mobileTab = 'saved';
+          tabSaved.className = 'view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition flex items-center gap-1.5';
+          tabCalc.className = 'view-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-1.5';
+          renderSavedTable();
+        }
+        syncResponsiveVisibility();
+      }
+
+      function switchMobileTab(tab) {
+        state.mobileTab = tab;
+        state.activeView = tab === 'saved' ? 'saved' : 'calculator';
+        if (tab === 'saved') renderSavedTable();
+        syncResponsiveVisibility();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function applyLanguage(lang) {
+        state.lang = lang;
+        const dict = I18N[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key]) el.textContent = dict[key];
+        });
+        document.getElementById('langLabel').textContent = lang === 'en' ? 'Roman Urdu' : 'English';
+        updateAll();
+      }
+
+      // ---------- COPY REPORT & EXPORT CSV ----------
+      function copyWhatsAppReport() {
+        if (!latestResult) return;
+        const inp = latestResult.inp;
+        const res = latestResult.res;
+        const beRto = latestResult.beRto;
+
+        const text = [
+          '*78 Profit Calculator PRO — E-Commerce Report*',
+          'Product: ' + inp.productName,
+          'Price: ' + fmtRs(inp.sellingPrice) + ' | Funnel: ' + inp.monthlyOrders + ' Recv -> ' + Math.round(res.dispatchedOrders) + ' Disp -> ' + Math.round(res.deliveredOrders) + ' Del (' + inp.rtoRate + '% RTO)',
+          '--------------------------------',
+          'Collected Revenue: ' + fmtRs(res.totalRevenue),
+          'Landed COGS (+ Bilty/Damaged) + Pack + Call: -' + fmtRs(res.totalCogs + res.totalPackaging + res.totalHandling),
+          'Courier + RTO + Refunds/Replace: -' + fmtRs(res.totalLogistics),
+          'Ads + Card Tax + UGC Creatives: -' + fmtRs(res.totalMarketing),
+          'COD Tax, Commission & Flat Fees: -' + fmtRs(res.totalTaxesAndFees),
+          'Monthly Fixed Overhead: -' + fmtRs(res.fixedOverhead),
+          '--------------------------------',
+          '*Monthly Net Profit: ' + fmtRs(res.netProfit) + '*',
+          'Daily Avg Net Profit: ' + fmtRs(res.netProfit / 30),
+          'Net Profit / Delivered Order: ' + fmtRs(res.netProfitPerDelivered),
+          'Net Margin: ' + fmtPct(res.netMarginPct) + ' | ROI: ' + fmtPct(res.roiPct),
+          'Break-Even CPA: ' + fmtRs(res.beBaseCpa) + ' | Break-Even RTO: ' + beRto.toFixed(1) + '%'
+        ].join('\n');
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showToast(state.lang === 'ur' ? 'WhatsApp report copy ho gayi!' : 'WhatsApp report copied to clipboard!');
+          }).catch(function () {
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast(state.lang === 'ur' ? 'WhatsApp report copy ho gayi!' : 'WhatsApp report copied!');
+        } catch (e) {
+          showToast('Could not copy automatically.');
+        }
+        document.body.removeChild(ta);
+      }
+
+      function exportCsv() {
+        if (!latestResult) return;
+        const inp = latestResult.inp;
+        const res = latestResult.res;
+        const del = res.deliveredOrders > 0 ? res.deliveredOrders : 1;
+
+        const rows = [
+          ['78 Profit Calculator PRO - Pakistani E-Commerce P&L', '', ''],
+          ['Product', inp.productName, ''],
+          ['Orders Received', inp.monthlyOrders, ''],
+          ['Cancelled (Pre-Dispatch)', Math.round(res.cancelledOrders), ''],
+          ['Dispatched Orders', Math.round(res.dispatchedOrders), ''],
+          ['Delivered Orders', Math.round(res.deliveredOrders), ''],
+          ['Returned (RTO) Orders', Math.round(res.returnedOrders), ''],
+          ['', '', ''],
+          ['Line Item', 'Per Delivered Order (PKR)', 'Monthly Total (PKR)'],
+          ['Collected Revenue', (res.totalRevenue / del).toFixed(2), res.totalRevenue.toFixed(2)],
+          ['Landed COGS (+ Bilty & Damaged)', (-res.totalCogs / del).toFixed(2), (-res.totalCogs).toFixed(2)],
+          ['Packaging & Flyer', (-res.totalPackaging / del).toFixed(2), (-res.totalPackaging).toFixed(2)],
+          ['Call Confirm / Handling', (-res.totalHandling / del).toFixed(2), (-res.totalHandling).toFixed(2)],
+          ['Forward Courier (+ GST)', (-res.totalForwardShipping / del).toFixed(2), (-res.totalForwardShipping).toFixed(2)],
+          ['Return / RTO Shipping (+ GST)', (-res.totalReturnShipping / del).toFixed(2), (-res.totalReturnShipping).toFixed(2)],
+          ['Post-Delivery Refunds & Replacements', (-res.totalRefundReplaceCost / del).toFixed(2), (-res.totalRefundReplaceCost).toFixed(2)],
+          ['Marketing, Ad Card Tax & Creatives', (-res.totalMarketing / del).toFixed(2), (-res.totalMarketing).toFixed(2)],
+          ['COD Tax, Platform & Flat Fees', (-res.totalTaxesAndFees / del).toFixed(2), (-res.totalTaxesAndFees).toFixed(2)],
+          ['Monthly Fixed Overhead', (-res.fixedOverhead / del).toFixed(2), (-res.fixedOverhead).toFixed(2)],
+          ['TRUE NET PROFIT', res.netProfitPerDelivered.toFixed(2), res.netProfit.toFixed(2)]
+        ];
+
+        const csv = rows.map(function (r) {
+          return r.map(function (c) {
+            return '"' + String(c).replace(/"/g, '""') + '"';
+          }).join(',');
+        }).join('\n');
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '78_profit_report_' + inp.productName.toLowerCase().replace(/[^a-z0-9]+/g, '_') + '.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast(state.lang === 'ur' ? 'CSV file download ho gayi!' : 'P&L CSV exported!');
+      }
+
+      // ---------- TOAST ----------
+      function showToast(msg) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast-enter px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-emerald-600 text-white text-xs font-semibold shadow-xl border border-slate-700 dark:border-emerald-400 flex items-center gap-2';
+        toast.textContent = msg;
+        container.appendChild(toast);
+        setTimeout(function () {
+          toast.style.opacity = '0';
+          toast.style.transition = 'opacity 0.25s ease';
+          setTimeout(function () {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+          }, 260);
+        }, 2400);
+      }
+
+      // ---------- EVENT LISTENERS ----------
+      function bindEvents() {
+        const inputIds = [
+          'productName', 'sellingPrice', 'customerShipping', 'discount', 'monthlyOrders', 'cancelRate',
+          'sourcingCost', 'inboundFreight', 'packagingCost', 'handlingCost', 'forwardShipping', 'returnShipping',
+          'courierGstPct', 'damagedReturnPct', 'refundReplacePct', 'adCpa', 'monthlyAdSpend', 'adTaxPct',
+          'creativeCost', 'codTaxPct', 'platformFeePct', 'otherTaxPct', 'codFlatFee', 'fixedOverhead'
+        ];
+
+        function handleFieldEdit(id) {
+          if (id === 'adCpa' || id === 'monthlyOrders') {
+            if (state.adMode === 'cpa') {
+              document.getElementById('monthlyAdSpend').value = Math.round(numVal('adCpa') * Math.max(1, numVal('monthlyOrders')));
+            }
+          } else if (id === 'monthlyAdSpend') {
+            if (state.adMode === 'monthly') {
+              document.getElementById('adCpa').value = Math.round(numVal('monthlyAdSpend') / Math.max(1, numVal('monthlyOrders')));
+            }
+          }
+          updateAll();
+        }
+
+        inputIds.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('input', function () { handleFieldEdit(id); });
+            el.addEventListener('change', function () { handleFieldEdit(id); });
+          }
+        });
+
+        // Collapsible Accordions
+        document.querySelectorAll('.accordion-toggle').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const targetId = btn.getAttribute('data-accordion');
+            const body = document.getElementById(targetId);
+            if (!body) return;
+            const isHidden = body.classList.toggle('hidden');
+            if (isHidden) {
+              btn.classList.add('accordion-collapsed');
+            } else {
+              btn.classList.remove('accordion-collapsed');
+            }
+          });
+        });
+
+        // Theme Toggle
+        document.getElementById('themeToggleBtn').addEventListener('click', function () {
+          applyTheme(!state.darkMode, true);
+        });
+
+        // Period Switcher
+        document.querySelectorAll('.period-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            state.period = btn.getAttribute('data-period');
+            document.querySelectorAll('.period-btn').forEach(function (b) {
+              if (b.getAttribute('data-period') === state.period) {
+                b.className = 'period-btn px-2.5 py-1 rounded-lg bg-white text-slate-950 shadow-sm transition';
+              } else {
+                b.className = 'period-btn px-2.5 py-1 rounded-lg text-white/75 hover:text-white transition';
+              }
+            });
+            updateAll();
+          });
+        });
+
+        // Target Margin Chips & Apply Recommended Price
+        document.querySelectorAll('.target-margin-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            state.targetMarginPct = parseInt(btn.getAttribute('data-target-margin'), 10) || 20;
+            document.querySelectorAll('.target-margin-btn').forEach(function (b) {
+              if (parseInt(b.getAttribute('data-target-margin'), 10) === state.targetMarginPct) {
+                b.className = 'target-margin-btn px-1.5 py-0.5 rounded bg-white text-slate-950 text-[10px] font-extrabold';
+              } else {
+                b.className = 'target-margin-btn px-1.5 py-0.5 rounded bg-black/20 text-[10px] font-bold text-white/80 hover:bg-black/30';
+              }
+            });
+            updateAll();
+          });
+        });
+
+        document.getElementById('applyRecPriceBtn').addEventListener('click', function () {
+          if (!latestResult || latestResult.res.recMinPrice === null) return;
+          const rounded = Math.ceil(latestResult.res.recMinPrice / 10) * 10 - 1;
+          const finalPrice = Math.max(10, rounded);
+          document.getElementById('sellingPrice').value = finalPrice;
+          updateAll();
+          showToast((state.lang === 'ur' ? 'Selling price set: ' : 'Selling price updated to ') + fmtRs(finalPrice));
+        });
+
+        // RTO Number <-> Slider sync & Quick Chips
+        const rtoInput = document.getElementById('rtoRate');
+        const rtoSlider = document.getElementById('rtoSlider');
+        rtoInput.addEventListener('input', function () {
+          const v = Math.min(60, Math.max(0, numVal('rtoRate')));
+          rtoSlider.value = v;
+          updateAll();
+        });
+        rtoSlider.addEventListener('input', function () {
+          rtoInput.value = rtoSlider.value;
+          updateAll();
+        });
+
+        document.querySelectorAll('.rto-chip').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const val = btn.getAttribute('data-rto-chip');
+            rtoInput.value = val;
+            rtoSlider.value = val;
+            updateAll();
+          });
+        });
+
+        document.querySelectorAll('.courier-chip').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            document.getElementById('forwardShipping').value = btn.getAttribute('data-courier-chip');
+            updateAll();
+          });
+        });
+
+        // Presets
+        document.querySelectorAll('.preset-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            applyPreset(btn.getAttribute('data-preset'));
+            showToast('Preset loaded: ' + btn.textContent.trim());
+          });
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function () {
+          applyPreset(state.activePreset || 'shopify');
+          showToast(state.lang === 'ur' ? 'Calculator reset ho gaya' : 'Calculator reset to defaults');
+        });
+
+        // Ad Mode Toggle
+        document.getElementById('adModeCpa').addEventListener('click', function () {
+          setAdMode('cpa');
+          updateAll();
+        });
+        document.getElementById('adModeMonthly').addEventListener('click', function () {
+          setAdMode('monthly');
+          updateAll();
+        });
+
+        // Chart Tabs
+        document.getElementById('chartTabBreakdown').addEventListener('click', function () {
+          state.activeChartTab = 'breakdown';
+          document.getElementById('breakdownChartBox').classList.remove('hidden');
+          document.getElementById('rtoChartBox').classList.add('hidden');
+          this.className = 'px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+          document.getElementById('chartTabRto').className = 'px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        });
+        document.getElementById('chartTabRto').addEventListener('click', function () {
+          state.activeChartTab = 'rto';
+          document.getElementById('rtoChartBox').classList.remove('hidden');
+          document.getElementById('breakdownChartBox').classList.add('hidden');
+          this.className = 'px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+          document.getElementById('chartTabBreakdown').className = 'px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        });
+
+        // Desktop Main View Tabs
+        document.getElementById('tabCalculator').addEventListener('click', function () {
+          switchMainView('calculator');
+        });
+        document.getElementById('tabSaved').addEventListener('click', function () {
+          switchMainView('saved');
+        });
+
+        // Mobile Bottom Nav Tabs
+        document.querySelectorAll('.mobile-nav-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            switchMobileTab(btn.getAttribute('data-mobile-tab'));
+          });
+        });
+
+        document.getElementById('mobileLiveBar').addEventListener('click', function () {
+          if (window.innerWidth < 1024 && state.mobileTab !== 'profit') {
+            switchMobileTab('profit');
+          }
+        });
+        document.getElementById('mobileEditPricesBtn').addEventListener('click', function () {
+          switchMobileTab('inputs');
+          setTimeout(function () {
+            const sp = document.getElementById('sellingPrice');
+            if (sp) { sp.focus(); sp.select(); }
+          }, 120);
+        });
+
+        window.addEventListener('resize', syncResponsiveVisibility);
+
+        // Save / Clear / Delegate Saved Table Actions
+        document.getElementById('saveProductBtn').addEventListener('click', saveCurrentProduct);
+        document.getElementById('saveCurrentFromTabBtn').addEventListener('click', saveCurrentProduct);
+        document.getElementById('clearSavedBtn').addEventListener('click', function () {
+          state.savedProducts = [];
+          persistSavedProducts();
+          renderSavedTable();
+          showToast(state.lang === 'ur' ? 'Saved list clear ho gayi' : 'All saved products cleared');
+        });
+
+        document.getElementById('savedTableBody').addEventListener('click', function (e) {
+          const loadBtn = e.target.closest('.load-saved-btn');
+          if (loadBtn) {
+            loadSavedProduct(loadBtn.getAttribute('data-load-id'));
+            return;
+          }
+          const delBtn = e.target.closest('.del-saved-btn');
+          if (delBtn) {
+            deleteSavedProduct(delBtn.getAttribute('data-del-id'));
+          }
+        });
+
+        // Language Toggle
+        document.getElementById('langToggleBtn').addEventListener('click', function () {
+          applyLanguage(state.lang === 'en' ? 'ur' : 'en');
+        });
+
+        // Copy & Export
+        document.getElementById('copyWhatsappBtn').addEventListener('click', copyWhatsAppReport);
+        document.getElementById('exportCsvBtn').addEventListener('click', exportCsv);
+      }
+
+      // ---------- INIT ----------
+      window.addEventListener('DOMContentLoaded', function () {
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+          lucide.createIcons();
+        }
+        loadPreferences();
+        bindEvents();
+        renderSavedTable();
+        applyPreset('shopify');
+        syncResponsiveVisibility();
+      });
+    })();
+  </script>
+</body>
+</html>

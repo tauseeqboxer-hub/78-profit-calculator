@@ -1,0 +1,22 @@
+name: profit_calculator_78
+description: 78 Profit Calculator - Pakistani E-Commerce Net Profit Suite by 78 Agency
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.10.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/78_profit_calculator.html
