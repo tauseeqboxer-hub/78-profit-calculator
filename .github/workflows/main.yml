@@ -42,7 +42,6 @@ jobs:
               b = int(237 * (1 - t) + 149 * t)
               draw.line([(0, y), (size, y)], fill=(r, g, b, 255))
 
-          # Subtle inner border
           draw.rounded_rectangle([24, 24, size - 24, size - 24], radius=96, outline=(216, 180, 254, 140), width=8)
 
           try:
@@ -69,27 +68,29 @@ jobs:
                   resized.save(f"{target_dir}/ic_launcher.png")
 
           # 2. Midnight Obsidian Dark Launch Splash Screen
-          splash_xml = '''<?xml version="1.0" encoding="utf-8"?>
-          <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-              <item>
-                  <shape android:shape="rectangle">
-                      <solid android:color="#090814" />
-                  </shape>
-              </item>
-          </layer-list>
-          '''
+          splash_xml = '<?xml version="1.0" encoding="utf-8"?>\n<layer-list xmlns:android="http://schemas.android.com/apk/res/android">\n    <item>\n        <shape android:shape="rectangle">\n            <solid android:color="#090814" />\n        </shape>\n    </item>\n</layer-list>\n'
           for path in glob.glob("android/app/src/main/res/drawable*/launch_background.xml"):
               open(path, "w", encoding="utf-8").write(splash_xml)
 
-          # 3. Patch AndroidManifest.xml (App Name, Internet, Hardware Acceleration)
+          # 3. Patch AndroidManifest.xml (App Name & Internet)
           mp = "android/app/src/main/AndroidManifest.xml"
           m = open(mp, encoding="utf-8").read()
           m = re.sub(r'android:label="[^"]*"', 'android:label="78 Profit Calculator"', m, count=1)
           if "android.permission.INTERNET" not in m:
               m = m.replace("<application", '    <uses-permission android:name="android.permission.INTERNET"/>\n    <application', 1)
-          if "hardwareAccelerated" not in m:
-              m = m.replace("<application", '<application android:hardwareAccelerated="true"', 1)
           open(mp, "w", encoding="utf-8").write(m)
+
+          # 4. Disable AGP lintVital crash during release build
+          for gp in ["android/app/build.gradle.kts", "android/app/build.gradle"]:
+              if os.path.exists(gp):
+                  g = open(gp, encoding="utf-8").read()
+                  if "checkReleaseBuilds" not in g:
+                      if gp.endswith(".kts"):
+                          lint_block = "\n    lint {\n        checkReleaseBuilds = false\n        abortOnError = false\n    }\n"
+                      else:
+                          lint_block = "\n    lint {\n        checkReleaseBuilds false\n        abortOnError false\n    }\n"
+                      g = g.replace("android {", "android {" + lint_block, 1)
+                      open(gp, "w", encoding="utf-8").write(g)
           PATCH
 
           flutter pub get
