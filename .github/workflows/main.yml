@@ -1,0 +1,102 @@
+name: Build 78 Profit Calculator APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Configure 78 Agency Icon, Dark Splash & Build APK
+        run: |
+          if [ -f "78_profit_calculator_apk/pubspec.yaml" ]; then
+            cd 78_profit_calculator_apk
+          fi
+
+          flutter create . --platforms=android --org com.agency78
+          python3 -m pip install --quiet pillow
+
+          python3 - << 'PATCH'
+          import os, re, glob
+          from PIL import Image, ImageDraw, ImageFont
+
+          # 1. Generate 512x512 Agency 78 Royal Purple App Icon
+          size = 512
+          img = Image.new("RGBA", (size, size), (9, 8, 20, 255))
+          draw = ImageDraw.Draw(img)
+          for y in range(size):
+              t = y / size
+              r = int(124 * (1 - t) + 76 * t)
+              g = int(58 * (1 - t) + 29 * t)
+              b = int(237 * (1 - t) + 149 * t)
+              draw.line([(0, y), (size, y)], fill=(r, g, b, 255))
+
+          # Subtle inner border
+          draw.rounded_rectangle([24, 24, size - 24, size - 24], radius=96, outline=(216, 180, 254, 140), width=8)
+
+          try:
+              font_big = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 230)
+              font_sub = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 44)
+          except Exception:
+              font_big = ImageFont.load_default()
+              font_sub = ImageFont.load_default()
+
+          draw.text((size // 2, size // 2 - 28), "78", fill=(255, 255, 255, 255), font=font_big, anchor="mm")
+          draw.text((size // 2, size - 95), "PROFIT", fill=(233, 213, 255, 240), font=font_sub, anchor="mm")
+
+          icon_sizes = {
+              "mipmap-mdpi": 48,
+              "mipmap-hdpi": 72,
+              "mipmap-xhdpi": 96,
+              "mipmap-xxhdpi": 144,
+              "mipmap-xxxhdpi": 192,
+          }
+          for folder, px in icon_sizes.items():
+              target_dir = f"android/app/src/main/res/{folder}"
+              if os.path.isdir(target_dir):
+                  resized = img.resize((px, px), Image.Resampling.LANCZOS)
+                  resized.save(f"{target_dir}/ic_launcher.png")
+
+          # 2. Midnight Obsidian Dark Launch Splash Screen
+          splash_xml = '''<?xml version="1.0" encoding="utf-8"?>
+          <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+              <item>
+                  <shape android:shape="rectangle">
+                      <solid android:color="#090814" />
+                  </shape>
+              </item>
+          </layer-list>
+          '''
+          for path in glob.glob("android/app/src/main/res/drawable*/launch_background.xml"):
+              open(path, "w", encoding="utf-8").write(splash_xml)
+
+          # 3. Patch AndroidManifest.xml (App Name, Internet, Hardware Acceleration)
+          mp = "android/app/src/main/AndroidManifest.xml"
+          m = open(mp, encoding="utf-8").read()
+          m = re.sub(r'android:label="[^"]*"', 'android:label="78 Profit Calculator"', m, count=1)
+          if "android.permission.INTERNET" not in m:
+              m = m.replace("<application", '    <uses-permission android:name="android.permission.INTERNET"/>\n    <application', 1)
+          if "hardwareAccelerated" not in m:
+              m = m.replace("<application", '<application android:hardwareAccelerated="true"', 1)
+          open(mp, "w", encoding="utf-8").write(m)
+          PATCH
+
+          flutter pub get
+          flutter build apk --release
+
+      - name: Upload 78 Profit Calculator APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: 78-Profit-Calculator-APK
+          path: "**/app-release.apk"
